@@ -21,6 +21,7 @@ PROJECT_DIR="$SCRIPT_DIR/$PROJECT_NAME"
 WEB_DIR="$PROJECT_DIR/web"
 CMS_DIR="$PROJECT_DIR/cms"
 PID_DIR="$SCRIPT_DIR/.pids"
+LOG_DIR="$SCRIPT_DIR/logs"
 
 if [ ! -d "$PROJECT_DIR" ]; then
   echo "Project directory '$PROJECT_DIR' not found. Please run ./generate.sh first."
@@ -28,32 +29,33 @@ if [ ! -d "$PROJECT_DIR" ]; then
 fi
 
 mkdir -p "$PID_DIR"
+mkdir -p "$LOG_DIR"
 
 # Start 11ty server
-echo "Starting 11ty server..."
+echo "Starting 11ty server... (log: $LOG_DIR/11ty.log)"
 (
   cd "$WEB_DIR" || exit
-  npx @11ty/eleventy --serve &
+  npx @11ty/eleventy --serve &> "$LOG_DIR/11ty.log" &
   PID=$!
   PGID=$(ps -o pgid= -p $PID | grep -o '[0-9]*')
   echo $PGID > "$PID_DIR/11ty.pgid"
 )
 
 # Start Sanity server
-echo "Starting Sanity Studio..."
+echo "Starting Sanity Studio... (log: $LOG_DIR/sanity.log)"
 (
   cd "$CMS_DIR" || exit
-  npm run dev &
+  npm run dev &> "$LOG_DIR/sanity.log" &
   PID=$!
   PGID=$(ps -o pgid= -p $PID | grep -o '[0-9]*')
   echo $PGID > "$PID_DIR/sanity.pgid"
 )
 
 # Start Sanity listener
-echo "Starting Sanity listener for real-time updates..."
+echo "Starting Sanity listener for real-time updates... (log: $LOG_DIR/listener.log)"
 (
   cd "$WEB_DIR" || exit
-  node ./listen.js &
+  node ./listen.js &> "$LOG_DIR/listener.log" &
   PID=$!
   PGID=$(ps -o pgid= -p $PID | grep -o '[0-9]*')
   echo $PGID > "$PID_DIR/listener.pgid"

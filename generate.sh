@@ -108,6 +108,8 @@ echo "Setting up Sanity Studio in $CMS_DIR..."
 EOF
 
   npm install > /dev/null 2>&1
+  echo "Updating Sanity dependencies..."
+  npm update > /dev/null 2>&1
 
   echo "Copying schemas..."
   cp -r "$SCRIPT_DIR/bootstrap/cms/schemaTypes" .
