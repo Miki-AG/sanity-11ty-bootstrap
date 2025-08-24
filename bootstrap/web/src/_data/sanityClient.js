@@ -11,5 +11,5 @@ export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: process.env.ELEVENTY_ENV !== 'development',
+  useCdn: false,
 })

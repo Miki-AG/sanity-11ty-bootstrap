@@ -19,15 +19,17 @@ const subscription = client.listen(query).subscribe(update => {
   const type = update.type
   console.log(`[Sanity] Content event: ${type} for ${doc?.slug?.current || doc?._id}`)
 
-  // Touch a file that 11ty is watching to trigger a rebuild.
-  const dataFile = path.join('src', '_data', 'pages.js')
-  try {
-    const time = new Date()
-    fs.utimesSync(dataFile, time, time)
-    console.log(`[11ty] Touched ${dataFile} to trigger rebuild.`)
-  } catch (err) {
-    console.error(`Error touching ${dataFile}:`, err)
-  }
+  setTimeout(() => {
+    // Touch a file that 11ty is watching to trigger a rebuild.
+    const dataFile = path.join('src', '_data', 'pages.js')
+    try {
+      const time = new Date()
+      fs.utimesSync(dataFile, time, time)
+      console.log(`[11ty] Touched ${dataFile} to trigger rebuild.`)
+    } catch (err) {
+      console.error(`Error touching ${dataFile}:`, err)
+    }
+  }, 2000)
 })
 
 process.on('SIGINT', async () => {
