@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This script starts the development servers for the Sanity + 11ty project.
+
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 # --- Read .env file ---
@@ -8,22 +10,17 @@ if [ -f "$SCRIPT_DIR/.env" ]; then
   source "$SCRIPT_DIR/.env"
   set +a # stop exporting
 else
-  echo "Error: .env file not found in $SCRIPT_DIR. Please create one from .env.example."
+  echo "Error: .env file not found. Please ensure it exists in the project root."
   exit 1
 fi
 
-if [ -z "$PROJECT_NAME" ]; then
-  echo "Error: PROJECT_NAME must be set in the .env file."
-  exit 1
-fi
-
-PROJECT_DIR="$SCRIPT_DIR/$PROJECT_NAME"
+PROJECT_DIR="$SCRIPT_DIR"
 WEB_DIR="$PROJECT_DIR/web"
 CMS_DIR="$PROJECT_DIR/cms"
-LOG_DIR="$SCRIPT_DIR/logs"
+LOG_DIR="$PROJECT_DIR/logs"
 
-if [ ! -d "$PROJECT_DIR" ]; then
-  echo "Project directory '$PROJECT_DIR' not found. Please run ./generate.sh first."
+if [ ! -d "$WEB_DIR" ] || [ ! -d "$CMS_DIR" ]; then
+  echo "Error: 'web' or 'cms' directory not found. Please run ./generate.sh first."
   exit 1
 fi
 
@@ -56,7 +53,7 @@ pm2 start "node ./listen.js" \
 
 # Wait a bit for servers to start
 echo "Waiting for servers to start..."
-sleep 5
+sleep 8
 
 # Open browser tabs in Google Chrome
 echo "Opening browser tabs in Google Chrome..."

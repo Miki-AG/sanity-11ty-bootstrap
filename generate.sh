@@ -1,5 +1,10 @@
 #!/bin/bash
+
+# This script generates a new Sanity + 11ty project in the current directory.
+# It reads configuration from a .env file in the same directory.
+
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+PROJECT_DIR=$(pwd)
 
 # Function to check if a command exists
 command_exists() {
@@ -7,12 +12,12 @@ command_exists() {
 }
 
 # --- Read .env file ---
-if [ -f "$SCRIPT_DIR/.env" ]; then
+if [ -f "$PROJECT_DIR/.env" ]; then
   set -a # automatically export all variables
-  source "$SCRIPT_DIR/.env"
+  source "$PROJECT_DIR/.env"
   set +a # stop exporting
 else
-  echo "Error: .env file not found in $SCRIPT_DIR. Please create one from .env.example."
+  echo "Error: .env file not found in the current directory. Please create one."
   exit 1
 fi
 
@@ -36,15 +41,13 @@ fi
 echo "Sanity login status: OK"
 
 # --- Start project setup ---
-PROJECT_DIR="$SCRIPT_DIR/$PROJECT_NAME"
 
-if [ -d "$PROJECT_DIR" ]; then
-  echo "Warning: Project directory '$PROJECT_DIR' already exists. Deleting it to start fresh."
-  rm -rf "$PROJECT_DIR"
+if [ -d "$PROJECT_DIR/cms" ] || [ -d "$PROJECT_DIR/web" ]; then
+  echo "Warning: 'cms' or 'web' directory already exists. Deleting them to start fresh."
+  rm -rf "$PROJECT_DIR/cms" "$PROJECT_DIR/web"
 fi
 
 echo "Creating project in '$PROJECT_DIR'..."
-mkdir -p "$PROJECT_DIR"
 
 WEB_DIR="$PROJECT_DIR/web"
 CMS_DIR="$PROJECT_DIR/cms"
@@ -148,14 +151,18 @@ EOF
 )
 echo "Sanity setup complete."
 
+# --- Copy scripts ---
+echo "Copying serve.sh and stop.sh to the current directory..."
+cp "$SCRIPT_DIR/serve.sh" "$PROJECT_DIR/serve.sh"
+cp "$SCRIPT_DIR/stop.sh" "$PROJECT_DIR/stop.sh"
+
 # --- Final instructions ---
 echo "--------------------------------------------------------------------------------"
 echo "Setup complete!"
 echo ""
-echo "To run the 11ty development server:"
-echo "cd $PROJECT_NAME/web && npx @11ty/eleventy --serve"
-
+echo "To run the development servers, run the following command:"
+echo "./serve.sh"
 echo ""
-echo "To run the Sanity Studio:"
-echo "cd $PROJECT_NAME/cms && npm run dev"
+echo "To stop the development servers, run the following command:"
+echo "./stop.sh"
 echo "--------------------------------------------------------------------------------"
