@@ -27,6 +27,7 @@ if [ ! -d "$PROJECT_DIR" ]; then
   exit 1
 fi
 
+rm -rf "$LOG_DIR"
 mkdir -p "$LOG_DIR"
 
 # Start 11ty server with pm2
@@ -39,7 +40,7 @@ pm2 start "npx @11ty/eleventy --serve" \
 
 # Start Sanity server with pm2
 echo "Starting Sanity Studio... (logs: $LOG_DIR/sanity-out.log and $LOG_DIR/sanity-error.log)"
-pm2 start "npm run dev" \
+pm2 start "export NODE_OPTIONS=--openssl-legacy-provider && npm run dev" \
   --name sanity \
   --cwd "$CMS_DIR" \
   --output "$LOG_DIR/sanity-out.log" \
@@ -55,7 +56,7 @@ pm2 start "node ./listen.js" \
 
 # Wait a bit for servers to start
 echo "Waiting for servers to start..."
-sleep 8
+sleep 5
 
 # Open browser tabs in Google Chrome
 echo "Opening browser tabs in Google Chrome..."

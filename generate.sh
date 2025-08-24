@@ -98,7 +98,7 @@ echo "Setting up Sanity Studio in $CMS_DIR..."
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sanity": "^4.0.0",
-    "styled-components": "^6.0.0"
+    "styled-components": "^6.1.15"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",
