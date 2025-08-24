@@ -34,7 +34,15 @@ You will also need a Sanity.io account.
     *   `SANITY_PROJECT_ID`: Your Sanity project ID from the previous step.
     *   `SANITY_DATASET`: The name of your Sanity dataset (e.g., "production").
 
-4.  **Log in to Sanity:**
+4.  **Make Scripts Executable:**
+
+    Before you can run the scripts, you need to make them executable. Run the following command from the generator's root directory:
+
+    ```bash
+    chmod +x generate.sh serve.sh stop.sh update.sh
+    ```
+
+5.  **Log in to Sanity:**
     If you haven't already, log in to your Sanity account from the command line:
     ```bash
     sanity login
@@ -74,3 +82,12 @@ To stop all running development servers, use the `stop.sh` script:
 ```
 
 This will stop the `pm2` processes for the 11ty site, Sanity Studio, and the content listener.
+
+### 4. Updating Schemas
+
+If you have updated the schemas in the `bootstrap` directory of the generator, you can update an existing project with the new schemas by running the `update.sh` script:
+
+```bash
+./update.sh /path/to/your/project
+```
+
