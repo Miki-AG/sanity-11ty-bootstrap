@@ -21,6 +21,15 @@ else
   echo "Sanity Studio is not running."
 fi
 
+if [ -f "$PID_DIR/listener.pid" ]; then
+  PID=$(cat "$PID_DIR/listener.pid")
+  echo "Stopping Sanity listener (PID: $PID)..."
+  kill "$PID" &> /dev/null
+  rm "$PID_DIR/listener.pid"
+else
+  echo "Sanity listener is not running."
+fi
+
 # Clean up pid directory if empty
 if [ -d "$PID_DIR" ] && [ -z "$(ls -A $PID_DIR)" ]; then
    rmdir "$PID_DIR"

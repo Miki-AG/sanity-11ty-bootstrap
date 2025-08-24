@@ -45,6 +45,14 @@ echo "Starting Sanity Studio..."
   echo $! > "$PID_DIR/sanity.pid"
 )
 
+# Start Sanity listener
+echo "Starting Sanity listener for real-time updates..."
+(
+  cd "$WEB_DIR" || exit
+  node ./listen.js &
+  echo $! > "$PID_DIR/listener.pid"
+)
+
 # Wait a bit for servers to start
 echo "Waiting for servers to start..."
 sleep 8

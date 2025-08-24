@@ -108,9 +108,28 @@ EOF
 
   npm install > /dev/null 2>&1
 
-  echo "Copying bootstrap files for Sanity..."
-  cp "$SCRIPT_DIR/bootstrap/cms/sanity.config.ts" .
+  echo "Copying schemas..."
   cp -r "$SCRIPT_DIR/bootstrap/cms/schemaTypes" .
+
+  echo "Creating Sanity configuration..."
+  # Create sanity.config.ts
+  cat << EOF > sanity.config.ts
+import {defineConfig} from 'sanity'
+import {structureTool} from 'sanity/structure'
+import {visionTool} from '@sanity/vision'
+import {schemaTypes} from './schemaTypes'
+
+export default defineConfig({
+  name: 'default',
+  title: '$PROJECT_NAME',
+  projectId: '$SANITY_PROJECT_ID',
+  dataset: '$SANITY_DATASET',
+  plugins: [structureTool(), visionTool()],
+  schema: {
+    types: schemaTypes,
+  },
+})
+EOF
 
   # Create sanity.cli.ts
   cat << EOF > sanity.cli.ts
@@ -118,15 +137,11 @@ import {defineCliConfig} from 'sanity/cli'
 
 export default defineCliConfig({
   api: {
-    projectId: '$SANITY_PROJECT_ID',
-    dataset: '$SANITY_DATASET'
+    projectId: "$SANITY_PROJECT_ID",
+    dataset: "$SANITY_DATASET"
   }
 })
 EOF
-
-  echo "Configuring Sanity studio..."
-  sed -i '' "s/__SANITY_PROJECT_ID__/$SANITY_PROJECT_ID/g" sanity.config.ts
-  sed -i '' "s/__SANITY_DATASET__/$SANITY_DATASET/g" sanity.config.ts
 )
 echo "Sanity setup complete."
 
