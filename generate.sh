@@ -5,12 +5,39 @@ command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
-# Ask for project name
-read -p "Enter the project name: " project_name
+# --- Read .env file ---
+if [ -f .env ]; then
+  set -a # automatically export all variables
+  source .env
+  set +a # stop exporting
+else
+  echo "Error: .env file not found. Please create one from .env.example."
+  exit 1
+fi
 
-# Create project directory
-mkdir -p "$project_name"
-cd "$project_name" || exit
+# --- Check for required variables ---
+if [ -z "$PROJECT_NAME" ] || [ -z "$SANITY_PROJECT_ID" ] || [ -z "$SANITY_DATASET" ]; then
+  echo "Error: PROJECT_NAME, SANITY_PROJECT_ID, and SANITY_DATASET must be set in the .env file."
+  exit 1
+fi
+
+# --- Check for Sanity CLI and login status ---
+if ! command_exists sanity; then
+    echo "Error: Sanity CLI not found. Please run 'npm install -g @sanity/cli'."
+    exit 1
+fi
+
+echo "Checking Sanity login status..."
+if ! sanity projects list > /dev/null 2>&1; then
+  echo "Error: Could not list Sanity projects. Please ensure you are logged in with 'sanity login'."
+  exit 1
+fi
+echo "Sanity login status: OK"
+
+# --- Start project setup ---
+echo "Creating project '$PROJECT_NAME'..."
+mkdir -p "$PROJECT_NAME"
+cd "$PROJECT_NAME" || exit
 
 # Create web and cms directories
 mkdir -p web cms
@@ -26,74 +53,80 @@ echo "Copying bootstrap files for 11ty..."
 cp ../../bootstrap/web/.eleventy.js .
 cp -r ../../bootstrap/web/src .
 
+# Create .env file in web directory
+cat << EOF > .env
+SANITY_PROJECT_ID=$SANITY_PROJECT_ID
+SANITY_DATASET=$SANITY_DATASET
+SANITY_API_VERSION=2025-01-01
+EOF
+echo "Created .env file in web/ with your Sanity credentials."
 echo "Eleventy setup complete in web directory."
 
 # --- Setup cms (Sanity Studio) ---
 cd ../cms || exit
 echo "Setting up Sanity Studio in cms/..."
 
-# Install Sanity CLI if not present
-if ! command_exists sanity;
-    then
-    echo "Installing Sanity CLI globally..."
-    npm install -g @sanity/cli
-fi
+# Create package.json
+cat << EOF > package.json
+{
+  "name": "cms",
+  "private": true,
+  "version": "1.0.0",
+  "main": "package.json",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "sanity dev",
+    "start": "sanity start",
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "deploy-graphql": "sanity graphql deploy"
+  },
+  "dependencies": {
+    "@sanity/vision": "^4.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sanity": "^4.0.0",
+    "styled-components": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "typescript": "^5.0.0"
+  }
+}
+EOF
 
-# Run sanity init interactively
-echo "--------------------------------------------------------------------------------"
-echo "When prompted by 'sanity init', please choose the following options:"
-echo "1. Log in or create a new account."
-echo "2. Choose 'Create new project'."
-echo "3. Select the 'Clean project with no predefined schemas' template."
-echo "4. When asked about project output path, confirm the default."
-echo "5. Select 'TypeScript' when asked."
-echo "--------------------------------------------------------------------------------"
-sanity init
+npm install > /dev/null 2>&1
 
-# Wait for confirmation
-read -p "Press enter after completing sanity init..."
+echo "Copying bootstrap files for Sanity..."
+cp ../../bootstrap/cms/sanity.config.ts .
+cp -r ../../bootstrap/cms/schemaTypes .
 
-if [ -f sanity.config.ts ]; then
-  echo "Copying bootstrap schemas for Sanity..."
-  rm -rf schemaTypes
-  cp -r ../../bootstrap/cms/schemaTypes .
+# Create sanity.cli.ts
+cat << EOF > sanity.cli.ts
+import {defineCliConfig} from 'sanity/cli'
 
-  echo "Updating sanity.config.ts..."
-  # Add import for schemaTypes if it's not there
-  grep -q "import {schemaTypes} from './schemaTypes'" sanity.config.ts || sed -i '' "/import {defineConfig} from 'sanity'/a\\
-import {schemaTypes} from './schemaTypes'\n" sanity.config.ts
+export default defineCliConfig({
+  api: {
+    projectId: '$SANITY_PROJECT_ID',
+    dataset: '$SANITY_DATASET'
+  }
+})
+EOF
 
-  # Replace the empty types array with our schemaTypes
-  sed -i '' 's/types: \[ \]/types: schemaTypes/' sanity.config.ts
-else
-  echo "Error: sanity.config.ts not found."
-  echo "Please ensure you run 'sanity init' and select a TypeScript project."
-  exit 1
-fi
+echo "Configuring Sanity studio..."
+sed -i '' "s/__SANITY_PROJECT_ID__/$SANITY_PROJECT_ID/g" sanity.config.ts
+sed -i '' "s/__SANITY_DATASET__/$SANITY_DATASET/g" sanity.config.ts
 
 echo "Sanity setup complete."
 
-# --- Link web and cms ---
-echo "Linking Sanity project to the 11ty site..."
-read -p "Enter your Sanity Project ID: " project_id
-read -p "Enter your Sanity Dataset (default: production): " dataset
-dataset=${dataset:-production}
-
-# Create .env file in web directory
-cd ../web || exit
-cat << EOF > .env
-SANITY_PROJECT_ID=$project_id
-SANITY_DATASET=$dataset
-SANITY_API_VERSION=2025-01-01
-EOF
-echo "Created .env file in web/ with your Sanity credentials."
-
+# --- Final instructions ---
 echo "--------------------------------------------------------------------------------"
 echo "Setup complete!"
 echo ""
 echo "To run the 11ty development server:"
-echo "cd web && npm install && npx @11ty/eleventy --serve"
+echo "cd $PROJECT_NAME/web && npx @11ty/eleventy --serve"
 
+echo ""
 echo "To run the Sanity Studio:"
-echo "cd cms && npm install && npm run dev"
+echo "cd $PROJECT_NAME/cms && npm run dev"
 echo "--------------------------------------------------------------------------------"
