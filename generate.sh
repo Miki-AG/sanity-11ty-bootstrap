@@ -48,6 +48,7 @@ if [ -d "$PROJECT_DIR/cms" ] || [ -d "$PROJECT_DIR/web" ]; then
 fi
 
 echo "Creating project in '$PROJECT_DIR'..."
+cp "$SCRIPT_DIR/bootstrap/README.md" "$PROJECT_DIR/README.md"
 
 WEB_DIR="$PROJECT_DIR/web"
 CMS_DIR="$PROJECT_DIR/cms"
