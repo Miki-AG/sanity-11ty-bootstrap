@@ -1,55 +1,62 @@
 #!/bin/bash
 
-# This script starts the development servers for the Sanity + 11ty project.
+# This script starts the development servers for a Sanity + 11ty project.
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
+if [ -z "$1" ]; then
+  echo "Error: Project directory not provided."
+  echo "Usage: ./serve.sh /path/to/your/project"
+  exit 1
+fi
+
+PROJECT_DIR=$1
+
 # --- Read .env file ---
-if [ -f "$SCRIPT_DIR/.env" ]; then
+if [ -f "$PROJECT_DIR/.env" ]; then
   set -a # automatically export all variables
-  source "$SCRIPT_DIR/.env"
+  source "$PROJECT_DIR/.env"
   set +a # stop exporting
 else
-  echo "Error: .env file not found. Please ensure it exists in the project root."
+  echo "Error: .env file not found in $PROJECT_DIR. Please ensure it exists."
   exit 1
 fi
 
-PROJECT_DIR="$SCRIPT_DIR"
 WEB_DIR="$PROJECT_DIR/web"
 CMS_DIR="$PROJECT_DIR/cms"
-LOG_DIR="$PROJECT_DIR/logs"
+LOG_DIR="$SCRIPT_DIR/logs"
 
 if [ ! -d "$WEB_DIR" ] || [ ! -d "$CMS_DIR" ]; then
-  echo "Error: 'web' or 'cms' directory not found. Please run ./generate.sh first."
+  echo "Error: 'web' or 'cms' directory not found in $PROJECT_DIR. Please run generate.sh first."
   exit 1
 fi
 
-rm -rf "$LOG_DIR"
-mkdir -p "$LOG_DIR"
+rm -rf "$LOG_DIR/$PROJECT_NAME"
+mkdir -p "$LOG_DIR/$PROJECT_NAME"
 
 # Start 11ty server with pm2
-echo "Starting 11ty server... (logs: $LOG_DIR/11ty-out.log and $LOG_DIR/11ty-error.log)"
+echo "Starting 11ty server for project '$PROJECT_NAME' ભા"
 pm2 start "npx @11ty/eleventy --serve" \
-  --name 11ty \
+  --name "11ty-$PROJECT_NAME" \
   --cwd "$WEB_DIR" \
-  --output "$LOG_DIR/11ty-out.log" \
-  --error "$LOG_DIR/11ty-error.log" || { echo "Failed to start 11ty"; exit 1; }
+  --output "$LOG_DIR/$PROJECT_NAME/11ty-out.log" \
+  --error "$LOG_DIR/$PROJECT_NAME/11ty-error.log" || { echo "Failed to start 11ty"; exit 1; }
 
 # Start Sanity server with pm2
-echo "Starting Sanity Studio... (logs: $LOG_DIR/sanity-out.log and $LOG_DIR/sanity-error.log)"
+echo "Starting Sanity Studio for project '$PROJECT_NAME' ભા"
 pm2 start "export NODE_OPTIONS=--openssl-legacy-provider && npm run dev" \
-  --name sanity \
+  --name "sanity-$PROJECT_NAME" \
   --cwd "$CMS_DIR" \
-  --output "$LOG_DIR/sanity-out.log" \
-  --error "$LOG_DIR/sanity-error.log" || { echo "Failed to start Sanity"; exit 1; }
+  --output "$LOG_DIR/$PROJECT_NAME/sanity-out.log" \
+  --error "$LOG_DIR/$PROJECT_NAME/sanity-error.log" || { echo "Failed to start Sanity"; exit 1; }
 
 # Start Sanity listener with pm2
-echo "Starting Sanity listener for real-time updates... (logs: $LOG_DIR/listener-out.log and $LOG_DIR/listener-error.log)"
+echo "Starting Sanity listener for project '$PROJECT_NAME' ભા"
 pm2 start "node ./listen.js" \
-  --name listener \
+  --name "listener-$PROJECT_NAME" \
   --cwd "$WEB_DIR" \
-  --output "$LOG_DIR/listener-out.log" \
-  --error "$LOG_DIR/listener-error.log" || { echo "Failed to start listener"; exit 1; }
+  --output "$LOG_DIR/$PROJECT_NAME/listener-out.log" \
+  --error "$LOG_DIR/$PROJECT_NAME/listener-error.log" || { echo "Failed to start listener"; exit 1; }
 
 # Wait a bit for servers to start
 echo "Waiting for servers to start..."
@@ -58,6 +65,7 @@ sleep 8
 # Open browser tabs in Google Chrome
 echo "Opening browser tabs in Google Chrome..."
 osascript <<'END'
+
 tell application "Google Chrome"
     if not (exists window 1) then make new window
     set screen_bounds to bounds of window 1
@@ -75,4 +83,4 @@ tell application "Google Chrome"
 end tell
 END
 
-echo "Servers are running under pm2. Use ./stop.sh to stop them, or 'pm2 logs' to view logs."
+echo "Servers are running under pm2. Use '$SCRIPT_DIR/stop.sh $PROJECT_DIR' to stop them, or 'pm2 logs' to view logs."

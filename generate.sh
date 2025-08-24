@@ -151,18 +151,13 @@ EOF
 )
 echo "Sanity setup complete."
 
-# --- Copy scripts ---
-echo "Copying serve.sh and stop.sh to the current directory..."
-cp "$SCRIPT_DIR/serve.sh" "$PROJECT_DIR/serve.sh"
-cp "$SCRIPT_DIR/stop.sh" "$PROJECT_DIR/stop.sh"
-
 # --- Final instructions ---
 echo "--------------------------------------------------------------------------------"
 echo "Setup complete!"
 echo ""
-echo "To run the development servers, run the following command:"
-echo "./serve.sh"
+echo "To run the development servers, run the following command from the generator directory:"
+echo "$SCRIPT_DIR/serve.sh $PROJECT_DIR"
 echo ""
-echo "To stop the development servers, run the following command:"
-echo "./stop.sh"
+echo "To stop the development servers, run the following command from the generator directory:"
+echo "$SCRIPT_DIR/stop.sh $PROJECT_DIR"
 echo "--------------------------------------------------------------------------------"
