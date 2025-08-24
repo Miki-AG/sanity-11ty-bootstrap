@@ -6,21 +6,5 @@ eleventyComputed: { title: "{{ page.title }}" }
 ---
 <h1>{{ page.title }}</h1>
 {% for block in page.blocks %}
-  {% if block._type == "imageWithCaption" %}
-    <figure>
-      {% if block.url %}
-        <img src="{{ block.url }}" alt="{{ block.alt or '' }}" style="max-width:100%;height:auto;"/>
-      {% else %}
-        <div style="padding:1rem;border:1px dashed #aaa;">[missing image]</div>
-      {% endif %}
-      {% if block.caption %}<figcaption>{{ block.caption }}</figcaption>{% endif %}
-    </figure>
-  {% elseif block._type == "twoColumnText" %}
-    <section class="grid-2">
-      <div>{{ block.left | safe }}</div>
-      <div>{{ block.right | safe }}</div>
-    </section>
-  {% else %}
-    <pre>Unhandled block: {{ block._type }}</pre>
-  {% endif %}
+  {% include "blocks/" + block._type + ".njk" %}
 {% endfor %}
