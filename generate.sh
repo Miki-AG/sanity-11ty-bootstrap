@@ -61,6 +61,7 @@ echo "Setting up 11ty site in $WEB_DIR..."
 
   echo "Copying bootstrap files for 11ty..."
   cp "$SCRIPT_DIR/bootstrap/web/.eleventy.js" .
+  cp "$SCRIPT_DIR/bootstrap/web/listen.js" .
   cp -r "$SCRIPT_DIR/bootstrap/web/src" .
 
   # Create .env file in web directory

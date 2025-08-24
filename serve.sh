@@ -34,7 +34,9 @@ echo "Starting 11ty server..."
 (
   cd "$WEB_DIR" || exit
   npx @11ty/eleventy --serve &
-  echo $! > "$PID_DIR/11ty.pid"
+  PID=$!
+  PGID=$(ps -o pgid= -p $PID | grep -o '[0-9]*')
+  echo $PGID > "$PID_DIR/11ty.pgid"
 )
 
 # Start Sanity server
@@ -42,7 +44,9 @@ echo "Starting Sanity Studio..."
 (
   cd "$CMS_DIR" || exit
   npm run dev &
-  echo $! > "$PID_DIR/sanity.pid"
+  PID=$!
+  PGID=$(ps -o pgid= -p $PID | grep -o '[0-9]*')
+  echo $PGID > "$PID_DIR/sanity.pgid"
 )
 
 # Start Sanity listener
@@ -50,7 +54,9 @@ echo "Starting Sanity listener for real-time updates..."
 (
   cd "$WEB_DIR" || exit
   node ./listen.js &
-  echo $! > "$PID_DIR/listener.pid"
+  PID=$!
+  PGID=$(ps -o pgid= -p $PID | grep -o '[0-9]*')
+  echo $PGID > "$PID_DIR/listener.pgid"
 )
 
 # Wait a bit for servers to start
