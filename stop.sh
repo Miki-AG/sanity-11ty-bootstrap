@@ -1,38 +1,30 @@
 #!/bin/bash
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-PID_DIR="$SCRIPT_DIR/.pids"
 
-if [ -f "$PID_DIR/11ty.pgid" ]; then
-  PGID=$(cat "$PID_DIR/11ty.pgid")
-  echo "Stopping 11ty server (PGID: $PGID)..."
-  kill -- -"$PGID" &> /dev/null
-  rm "$PID_DIR/11ty.pgid"
+# Stop processes if running
+if pm2 pid 11ty > /dev/null; then
+  echo "Stopping 11ty server..."
+  pm2 stop 11ty
+  pm2 delete 11ty
 else
   echo "11ty server is not running."
 fi
 
-if [ -f "$PID_DIR/sanity.pgid" ]; then
-  PGID=$(cat "$PID_DIR/sanity.pgid")
-  echo "Stopping Sanity Studio (PGID: $PGID)..."
-  kill -- -"$PGID" &> /dev/null
-  rm "$PID_DIR/sanity.pgid"
+if pm2 pid sanity > /dev/null; then
+  echo "Stopping Sanity Studio..."
+  pm2 stop sanity
+  pm2 delete sanity
 else
   echo "Sanity Studio is not running."
 fi
 
-if [ -f "$PID_DIR/listener.pgid" ]; then
-  PGID=$(cat "$PID_DIR/listener.pgid")
-  echo "Stopping Sanity listener (PGID: $PGID)..."
-  kill -- -"$PGID" &> /dev/null
-  rm "$PID_DIR/listener.pgid"
+if pm2 pid listener > /dev/null; then
+  echo "Stopping Sanity listener..."
+  pm2 stop listener
+  pm2 delete listener
 else
   echo "Sanity listener is not running."
-fi
-
-# Clean up pid directory if empty
-if [ -d "$PID_DIR" ] && [ -z "$(ls -A $PID_DIR)" ]; then
-   rmdir "$PID_DIR"
 fi
 
 echo "All servers stopped."

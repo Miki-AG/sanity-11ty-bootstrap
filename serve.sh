@@ -20,7 +20,6 @@ fi
 PROJECT_DIR="$SCRIPT_DIR/$PROJECT_NAME"
 WEB_DIR="$PROJECT_DIR/web"
 CMS_DIR="$PROJECT_DIR/cms"
-PID_DIR="$SCRIPT_DIR/.pids"
 LOG_DIR="$SCRIPT_DIR/logs"
 
 if [ ! -d "$PROJECT_DIR" ]; then
@@ -28,38 +27,31 @@ if [ ! -d "$PROJECT_DIR" ]; then
   exit 1
 fi
 
-mkdir -p "$PID_DIR"
 mkdir -p "$LOG_DIR"
 
-# Start 11ty server
-echo "Starting 11ty server... (log: $LOG_DIR/11ty.log)"
-(
-  cd "$WEB_DIR" || exit
-  npx @11ty/eleventy --serve &> "$LOG_DIR/11ty.log" &
-  PID=$!
-  PGID=$(ps -o pgid= -p $PID | grep -o '[0-9]*')
-  echo $PGID > "$PID_DIR/11ty.pgid"
-)
+# Start 11ty server with pm2
+echo "Starting 11ty server... (logs: $LOG_DIR/11ty-out.log and $LOG_DIR/11ty-error.log)"
+pm2 start "npx @11ty/eleventy --serve" \
+  --name 11ty \
+  --cwd "$WEB_DIR" \
+  --output "$LOG_DIR/11ty-out.log" \
+  --error "$LOG_DIR/11ty-error.log" || { echo "Failed to start 11ty"; exit 1; }
 
-# Start Sanity server
-echo "Starting Sanity Studio... (log: $LOG_DIR/sanity.log)"
-(
-  cd "$CMS_DIR" || exit
-  npm run dev &> "$LOG_DIR/sanity.log" &
-  PID=$!
-  PGID=$(ps -o pgid= -p $PID | grep -o '[0-9]*')
-  echo $PGID > "$PID_DIR/sanity.pgid"
-)
+# Start Sanity server with pm2
+echo "Starting Sanity Studio... (logs: $LOG_DIR/sanity-out.log and $LOG_DIR/sanity-error.log)"
+pm2 start "npm run dev" \
+  --name sanity \
+  --cwd "$CMS_DIR" \
+  --output "$LOG_DIR/sanity-out.log" \
+  --error "$LOG_DIR/sanity-error.log" || { echo "Failed to start Sanity"; exit 1; }
 
-# Start Sanity listener
-echo "Starting Sanity listener for real-time updates... (log: $LOG_DIR/listener.log)"
-(
-  cd "$WEB_DIR" || exit
-  node ./listen.js &> "$LOG_DIR/listener.log" &
-  PID=$!
-  PGID=$(ps -o pgid= -p $PID | grep -o '[0-9]*')
-  echo $PGID > "$PID_DIR/listener.pgid"
-)
+# Start Sanity listener with pm2
+echo "Starting Sanity listener for real-time updates... (logs: $LOG_DIR/listener-out.log and $LOG_DIR/listener-error.log)"
+pm2 start "node ./listen.js" \
+  --name listener \
+  --cwd "$WEB_DIR" \
+  --output "$LOG_DIR/listener-out.log" \
+  --error "$LOG_DIR/listener-error.log" || { echo "Failed to start listener"; exit 1; }
 
 # Wait a bit for servers to start
 echo "Waiting for servers to start..."
@@ -85,4 +77,4 @@ tell application "Google Chrome"
 end tell
 END
 
-echo "Servers are running in the background. Use ./stop.sh to stop them."
+echo "Servers are running under pm2. Use ./stop.sh to stop them, or 'pm2 logs' to view logs."
