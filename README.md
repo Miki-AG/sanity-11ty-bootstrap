@@ -1,6 +1,10 @@
 # Headless CMS Starter: Sanity + 11ty + Bootstrap
 
-This project provides a set of scripts to quickly generate and run a new web project using Sanity.io as a local headless CMS, 11ty as a static site generator, and Bootstrap for styling.
+This starter lets you manage a CMS locally and build your site with it.
+You can create and update landing pages through a simple web interface, and 11ty rebuilds the site automatically.
+It goes beyond plain markdown by supporting Sanity’s content blocks, so you can design rich, flexible pages while keeping full control of your content and code.
+
+It comes with a set of scripts to quickly generate and run a new web project using Sanity.io as a local headless CMS, 11ty as a static site generator, and Bootstrap for styling.
 
 ## Requirements
 
