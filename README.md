@@ -96,6 +96,6 @@ If you have updated the schemas in the `bootstrap` directory of the generator, y
 
 ### 5. Demo
 
-<video src="demo.mp4" width="600" autoplay loop muted playsinline>
+<video src="./demo.mp4" width="600" autoplay loop muted playsinline>
   Your browser does not support the video tag.
 </video>
