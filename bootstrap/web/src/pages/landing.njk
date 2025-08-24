@@ -1,6 +1,6 @@
 ---
 pagination: { data: pages, size: 1, alias: page }
-permalink: "/pages/{{ page.slug | url }}/index.html"
+permalink: "/{{ page.slug | url }}/index.html"
 layout: base.njk
 eleventyComputed: { title: "{{ page.title }}" }
 ---
