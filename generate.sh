@@ -1,4 +1,5 @@
 #!/bin/bash
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 # Function to check if a command exists
 command_exists() {
@@ -6,12 +7,12 @@ command_exists() {
 }
 
 # --- Read .env file ---
-if [ -f .env ]; then
+if [ -f "$SCRIPT_DIR/.env" ]; then
   set -a # automatically export all variables
-  source .env
+  source "$SCRIPT_DIR/.env"
   set +a # stop exporting
 else
-  echo "Error: .env file not found. Please create one from .env.example."
+  echo "Error: .env file not found in $SCRIPT_DIR. Please create one from .env.example."
   exit 1
 fi
 
@@ -35,39 +36,49 @@ fi
 echo "Sanity login status: OK"
 
 # --- Start project setup ---
-echo "Creating project '$PROJECT_NAME'..."
-mkdir -p "$PROJECT_NAME"
-cd "$PROJECT_NAME" || exit
+PROJECT_DIR="$SCRIPT_DIR/$PROJECT_NAME"
 
-# Create web and cms directories
-mkdir -p web cms
+if [ -d "$PROJECT_DIR" ]; then
+  echo "Warning: Project directory '$PROJECT_DIR' already exists. Deleting it to start fresh."
+  rm -rf "$PROJECT_DIR"
+fi
+
+echo "Creating project in '$PROJECT_DIR'..."
+mkdir -p "$PROJECT_DIR"
+
+WEB_DIR="$PROJECT_DIR/web"
+CMS_DIR="$PROJECT_DIR/cms"
+mkdir -p "$WEB_DIR"
+mkdir -p "$CMS_DIR"
 
 # --- Setup web (11ty) ---
-cd web || exit
-echo "Setting up 11ty site in web/..."
-npm init -y > /dev/null 2>&1
-npm pkg set type="module" > /dev/null 2>&1
-npm install @11ty/eleventy nunjucks @sanity/client dotenv groq > /dev/null 2>&1
+echo "Setting up 11ty site in $WEB_DIR..."
+(
+  cd "$WEB_DIR" || exit
+  npm init -y > /dev/null 2>&1
+  npm pkg set type="module" > /dev/null 2>&1
+  npm install @11ty/eleventy nunjucks @sanity/client dotenv groq > /dev/null 2>&1
 
-echo "Copying bootstrap files for 11ty..."
-cp ../../bootstrap/web/.eleventy.js .
-cp -r ../../bootstrap/web/src .
+  echo "Copying bootstrap files for 11ty..."
+  cp "$SCRIPT_DIR/bootstrap/web/.eleventy.js" .
+  cp -r "$SCRIPT_DIR/bootstrap/web/src" .
 
-# Create .env file in web directory
-cat << EOF > .env
+  # Create .env file in web directory
+  cat << EOF > .env
 SANITY_PROJECT_ID=$SANITY_PROJECT_ID
 SANITY_DATASET=$SANITY_DATASET
 SANITY_API_VERSION=2025-01-01
 EOF
-echo "Created .env file in web/ with your Sanity credentials."
+  echo "Created .env file in web/ with your Sanity credentials."
+)
 echo "Eleventy setup complete in web directory."
 
 # --- Setup cms (Sanity Studio) ---
-cd ../cms || exit
-echo "Setting up Sanity Studio in cms/..."
-
-# Create package.json
-cat << EOF > package.json
+echo "Setting up Sanity Studio in $CMS_DIR..."
+(
+  cd "$CMS_DIR" || exit
+  # Create package.json
+  cat << EOF > package.json
 {
   "name": "cms",
   "private": true,
@@ -95,14 +106,14 @@ cat << EOF > package.json
 }
 EOF
 
-npm install > /dev/null 2>&1
+  npm install > /dev/null 2>&1
 
-echo "Copying bootstrap files for Sanity..."
-cp ../../bootstrap/cms/sanity.config.ts .
-cp -r ../../bootstrap/cms/schemaTypes .
+  echo "Copying bootstrap files for Sanity..."
+  cp "$SCRIPT_DIR/bootstrap/cms/sanity.config.ts" .
+  cp -r "$SCRIPT_DIR/bootstrap/cms/schemaTypes" .
 
-# Create sanity.cli.ts
-cat << EOF > sanity.cli.ts
+  # Create sanity.cli.ts
+  cat << EOF > sanity.cli.ts
 import {defineCliConfig} from 'sanity/cli'
 
 export default defineCliConfig({
@@ -113,10 +124,10 @@ export default defineCliConfig({
 })
 EOF
 
-echo "Configuring Sanity studio..."
-sed -i '' "s/__SANITY_PROJECT_ID__/$SANITY_PROJECT_ID/g" sanity.config.ts
-sed -i '' "s/__SANITY_DATASET__/$SANITY_DATASET/g" sanity.config.ts
-
+  echo "Configuring Sanity studio..."
+  sed -i '' "s/__SANITY_PROJECT_ID__/$SANITY_PROJECT_ID/g" sanity.config.ts
+  sed -i '' "s/__SANITY_DATASET__/$SANITY_DATASET/g" sanity.config.ts
+)
 echo "Sanity setup complete."
 
 # --- Final instructions ---
