@@ -59,20 +59,21 @@ You will also need a Sanity.io account.
 
 ### 1. Generate the Project
 
-Run the `generate.sh` script to create your new project based on the values in your `.env` file:
-
+Create a directory for your new project, `cd` into it, and run `generate.sh` pointing to your new directory. For example:
 ```bash
-./generate.sh
+mkdir my-project
+cd my-project
+../sanity-11ty-bootstrap/generate.sh .
 ```
 
-This will create a new directory with the name you specified in `PROJECT_NAME`. Inside this directory, you will find two subdirectories: `cms` (for Sanity Studio) and `web` (for your 11ty site).
+This will populate your project directory with two subdirectories: `cms` (for Sanity Studio) and `web` (for your 11ty site).
 
 ### 2. Run the Development Servers
 
-To start the development servers for both Sanity Studio and your 11ty site, use the `serve.sh` script:
+To start the development servers for both Sanity Studio and your 11ty site, run `serve.sh` from your project's directory:
 
 ```bash
-./serve.sh
+../sanity-11ty-bootstrap/serve.sh .
 ```
 
 This script uses `pm2` to run the servers in the background. It will also automatically open your new site and Sanity Studio in your web browser.
@@ -82,20 +83,20 @@ This script uses `pm2` to run the servers in the background. It will also automa
 
 ### 3. Stop the Development Servers
 
-To stop all running development servers, use the `stop.sh` script:
+To stop all running development servers, use the `stop.sh` script from your project's directory:
 
 ```bash
-./stop.sh
+../sanity-11ty-bootstrap/stop.sh .
 ```
 
 This will stop the `pm2` processes for the 11ty site, Sanity Studio, and the content listener.
 
 ### 4. Updating Schemas
 
-If you have updated the schemas in the `bootstrap` directory of the generator, you can update an existing project with the new schemas by running the `update.sh` script:
+If you have updated the schemas in the `bootstrap` directory of the generator, you can update an existing project with the new schemas by running the `update.sh` script from your project's directory:
 
 ```bash
-./update.sh /path/to/your/project
+../sanity-11ty-bootstrap/update.sh .
 ```
 
 ### 5. Demo

@@ -1,12 +1,15 @@
-<figure class="figure">
-  {% if block.url %}
-    <img src="{{ block.url }}" class="figure-img img-fluid rounded" alt="{{ block.alt or '' }}">
-  {% else %}
-    <div class="alert alert-warning" role="alert">
-      [missing image]
-    </div>
-  {% endif %}
-  {% if block.caption %}
-    <figcaption class="figure-caption">{{ block.caption }}</figcaption>
-  {% endif %}
-</figure>
+<section class="container">
+  <figure class="figure">
+    {% if block.url %}
+      <img src="{{ block.url }}" class="figure-img img-fluid rounded" alt="{{ block.alt or '' }}">
+    {% else %}
+      <div class="alert alert-warning" role="alert">
+        [missing image]
+      </div>
+    {% endif %}
+    {% if block.caption %}
+      <figcaption class="figure-caption">{{ block.caption }}</figcaption>
+    {% endif %}
+  </figure>
+</section>
+
