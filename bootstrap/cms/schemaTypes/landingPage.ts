@@ -11,7 +11,7 @@ export default defineType({
       name: 'blocks',
       title: 'Blocks',
       type: 'array',
-      of: [{type: 'imageWithCaption'}, {type: 'twoColumnText'}]
+      of: [{type: 'imageWithCaption'}, {type: 'twoColumnText'}, {type: 'header'}]
     })
   ]
 })

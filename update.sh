@@ -27,3 +27,22 @@ fi
 echo "Updating schemas in '$SCHEMA_DIR'..."
 cp -r "$SCRIPT_DIR/bootstrap/cms/schemaTypes" "$CMS_DIR"
 echo "Schemas updated successfully."
+
+WEB_DIR="$PROJECT_DIR/web"
+INCLUDES_DIR="$WEB_DIR/src/_includes"
+BLOCKS_DIR="$INCLUDES_DIR/blocks"
+
+if [ ! -d "$WEB_DIR" ]; then
+  echo "Error: Web directory '$WEB_DIR' not found."
+  exit 1
+fi
+
+if [ ! -d "$INCLUDES_DIR" ]; then
+  echo "Error: Includes directory '$INCLUDES_DIR' not found."
+  exit 1
+fi
+
+echo "Updating blocks in '$BLOCKS_DIR'..."
+cp -r "$SCRIPT_DIR/bootstrap/web/src/_includes/blocks" "$INCLUDES_DIR"
+echo "Blocks updated successfully."
+
