@@ -17,6 +17,7 @@ export default defineType({
         {type: 'cardsGrid'},
         {type: 'pricingTable'},
         {type: 'faqAccordion'},
+        {type: 'ctaBanner'},
         {type: 'imageWithCaption'},
         {type: 'twoColumnText'},
         {type: 'header'}

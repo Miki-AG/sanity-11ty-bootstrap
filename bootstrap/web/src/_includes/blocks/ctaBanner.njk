@@ -1,0 +1,32 @@
+{# Nunjucks-safe CTA banner with variant styles and optional button #}
+{% set variant = block.variant or 'primary' %}
+{% set bgClass = 'bg-primary' %}
+{% set textClass = 'text-white' %}
+{% if variant == 'secondary' %}
+  {% set bgClass = 'bg-secondary' %}
+  {% set textClass = 'text-white' %}
+{% elseif variant == 'light' %}
+  {% set bgClass = 'bg-light' %}
+  {% set textClass = 'text-body' %}
+{% elseif variant == 'dark' %}
+  {% set bgClass = 'bg-dark' %}
+  {% set textClass = 'text-white' %}
+{% endif %}
+
+<section class="container my-5">
+  <div class="p-4 p-md-5 rounded {{ bgClass }} {{ textClass }}">
+    {% if block.title %}
+      <h2 class="mb-2">{{ block.title }}</h2>
+    {% endif %}
+    {% if block.text %}
+      <div class="mb-3">{{ block.text | pt | safe }}</div>
+    {% endif %}
+    {% if block.buttonUrl %}
+      <a href="{{ block.buttonUrl }}" class="btn btn-outline-light">
+        {{ block.buttonLabel or 'Learn more' }}
+      </a>
+    {% endif %}
+  </div>
+  
+</section>
+
