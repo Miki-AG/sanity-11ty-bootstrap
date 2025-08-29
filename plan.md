@@ -76,9 +76,16 @@ Notes on omitted items (for scope):
 ## Rendering Conventions (Nunjucks)
 - Wrapper: Use `.container` for normal sections; `.container-fluid` for full-bleed when visually useful (e.g., `heroCover`, `ctaBanner`).
 - Spacing: Apply consistent vertical rhythm (`py-5`, `my-5`) per section for coherent stacking.
-- Portable Text rendering: Render PT arrays to HTML using a server-side helper (e.g., `@portabletext/to-html`) exposed as an Eleventy/Nunjucks filter (`pt`). Example usage: `{{ block.lead | pt | safe }}`.
+- Portable Text rendering: Render PT arrays to HTML via a Nunjucks filter `pt`. Example: `{{ block.lead | pt | safe }}`.
 - Safety: Guard for missing optional fields; sanitize/normalize external links (e.g., add `rel="noopener"` on `target=_blank`).
 - Accessibility: Always surface `alt` for images; use semantic headings and button `aria-label` where appropriate.
+
+### Nunjucks Compatibility Rules (to avoid regressions)
+- No JavaScript-style ternaries or property access in expressions: avoid `cond ? a : b` and `array.length`.
+- Use `{% if %}…{% elseif %}…{% endif %}` and `{% set %}` to compute derived values.
+- Use `| length` for counts and `and`/`or` for boolean composition in conditions.
+- Avoid complex inline logic in attributes; pre-compute CSS classes with `{% set %}`.
+- Fail closed: wrap optional fragments with `{% if value %}…{% endif %}`.
 
 ## Implementation Plan (Phases)
 1) Add shared Portable Text schema
@@ -107,9 +114,22 @@ Notes on omitted items (for scope):
 - Run `serve.sh` for local dev; ensure layout, spacing, and responsiveness match Bootstrap examples.
 - Validate PT output (headings map to correct tags, lists render correctly, external links have `rel` attributes).
 
-8) Polish & Docs
+8) Sync & Update tooling
+- Keep `update.sh` simple and resilient: copy entire `web/src/_includes/` and `web/src/_data/`, plus `.eleventy.js` and `listen.js`, instead of piecemeal edits.
+- Ensure `.eleventy.js` registers the `pt` filter; the baseline file shipped in `bootstrap/web/.eleventy.js` remains source of truth.
+- Keep listener (`web/listen.js`) synced to reliably trigger rebuilds (touches `src/_data/pages.js`).
+
+9) Polish & Docs
 - Minimal CSS tweaks in `site.css` if necessary (e.g., spacing for banners, PT content margins).
 - Update `README.md` with a “Rich Text” section: how PT is used, authoring tips, and supported marks/styles.
+
+## Validation & QA Checklist
+- Templates compile with Nunjucks-only constructs (no ternaries or `.length` in expressions).
+- `update.sh` copies: `cms/schemaTypes`, `web/src/_includes/`, `web/src/_data/`, `web/.eleventy.js`, and `web/listen.js`.
+- `web/.eleventy.js` includes `pt` filter and Eleventy runs without “filter not found”.
+- `pages.js` GROQ includes new block cases and expands required image URLs consistently (`bgUrl`, `url`).
+- Sanity content published (no drafts) when using public client; ENV in `web/.env` matches Studio project/dataset.
+- Optional: temporary debug traces in `landing.njk` (HTML comments) to print `_type`, keys, and counts during development.
 
 ## Acceptance Criteria
 - Editors can add any of the 9 blocks to a landing page in Sanity.
