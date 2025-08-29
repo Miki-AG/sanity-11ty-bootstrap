@@ -52,6 +52,14 @@ mkdir -p "$WEB_DIR/src/_data"
 cp -R "$SCRIPT_DIR/bootstrap/web/src/_data/." "$WEB_DIR/src/_data/"
 echo "Data definitions updated."
 
+# --- Sync assets (CSS, images, etc.) ---
+ASSETS_SRC="$SCRIPT_DIR/bootstrap/web/src/assets"
+ASSETS_DST="$WEB_DIR/src/assets"
+echo "Syncing assets from '$ASSETS_SRC' to '$ASSETS_DST'..."
+mkdir -p "$ASSETS_DST"
+cp -R "$ASSETS_SRC/." "$ASSETS_DST/"
+echo "Assets updated."
+
 # --- Sync Eleventy config (registers filters, etc.) ---
 ELEVENTY_SRC="$SCRIPT_DIR/bootstrap/web/.eleventy.js"
 ELEVENTY_DST="$WEB_DIR/.eleventy.js"

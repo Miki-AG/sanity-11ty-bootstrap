@@ -1,20 +1,37 @@
+/* Basic, modern defaults to complement Bootstrap */
 body {
-  font-family: -apple-system, system-ui, Segoe UI, Roboto, sans-serif;
-  margin: 2rem;
-  line-height: 1.5;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
-.container {
-  max-width: 880px;
-  margin: 0 auto;
+
+/* Media elements scale within containers */
+img, svg, video, canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
-.grid-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
+
+/* Figures */
 figure { margin: 0; }
 figcaption {
-  font-size: .9rem;
-  color: #555;
+  font-size: .875rem;
+  color: var(--bs-secondary-color, #6c757d);
   margin-top: .5rem;
 }
+
+/* Section rhythm (optional helper) */
+.section { padding-block: 3rem; }
+.section + .section { margin-top: 2rem; }
+
+/* Hero helpers */
+.hero { position: relative; min-height: 40vh; }
+.hero__overlay { position: absolute; inset: 0; background: rgba(0,0,0,.35); }
+.hero__content { position: relative; z-index: 1; }
+
+/* Features */
+.features__icon { font-size: 2rem; line-height: 1; }
+
+/* Cards: remove last paragraph spacing in bodies */
+.card-text > :last-child { margin-bottom: 0; }
