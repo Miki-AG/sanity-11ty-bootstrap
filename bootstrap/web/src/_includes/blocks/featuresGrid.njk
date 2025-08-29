@@ -17,7 +17,9 @@
       {% for item in block.items %}
         <div class="{{ colClass }}">
           <div class="h-100">
-            {% if item.icon %}
+            {% if item.bi %}
+              <div class="fs-1 mb-2"><i class="bi bi-{{ item.bi }}" aria-hidden="true"></i></div>
+            {% elseif item.icon %}
               <div class="fs-1 mb-2">{{ item.icon }}</div>
             {% endif %}
             {% if item.title %}
@@ -38,4 +40,3 @@
     <div class="alert alert-warning">No features configured.</div>
   {% endif %}
 </section>
-

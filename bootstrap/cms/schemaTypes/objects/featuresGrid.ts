@@ -22,7 +22,8 @@ export default defineType({
       of: [{
         type: 'object',
         fields: [
-          defineField({ name: 'icon', type: 'string', title: 'Icon (emoji or short text)' }),
+          defineField({ name: 'icon', type: 'string', title: 'Icon (emoji CTR+CMD+SPACE or short text)' }),
+          defineField({ name: 'bi', type: 'string', title: 'Bootstrap Icon name (without "bi-")', description: 'e.g., star-fill, rocket-takeoff, check2-circle' }),
           defineField({ name: 'title', type: 'string', title: 'Title' }),
           defineField({ name: 'text', type: 'portableText', title: 'Text' }),
           defineField({ name: 'url', type: 'url', title: 'URL (optional)' }),
