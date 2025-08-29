@@ -10,7 +10,8 @@ const client = createClient({
   apiVersion: '2025-01-01',
 })
 
-const query = '*[_type == "landingPage"]'
+// Listen for changes to content that affects the site output
+const query = '*[_type in ["landingPage","siteSettings"]]'
 
 console.log('[Sanity] Listening for content changes...')
 
@@ -20,14 +21,19 @@ const subscription = client.listen(query).subscribe(update => {
   console.log(`[Sanity] Content event: ${type} for ${doc?.slug?.current || doc?._id}`)
 
   setTimeout(() => {
-    // Touch a file that 11ty is watching to trigger a rebuild.
-    const dataFile = path.join('src', '_data', 'pages.js')
-    try {
-      const time = new Date()
-      fs.utimesSync(dataFile, time, time)
-      console.log(`[11ty] Touched ${dataFile} to trigger rebuild.`)
-    } catch (err) {
-      console.error(`Error touching ${dataFile}:`, err)
+    // Touch data files that Eleventy watches to trigger a rebuild.
+    const files = [
+      path.join('src', '_data', 'pages.js'),
+      path.join('src', '_data', 'globals.js'),
+    ]
+    const time = new Date()
+    for (const dataFile of files) {
+      try {
+        fs.utimesSync(dataFile, time, time)
+        console.log(`[11ty] Touched ${dataFile} to trigger rebuild.`)
+      } catch (err) {
+        console.error(`Error touching ${dataFile}:`, err)
+      }
     }
   }, 2000)
 })

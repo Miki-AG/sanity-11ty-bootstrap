@@ -1,0 +1,31 @@
+{# Global footer (from globals.footer). Nunjucks-safe. #}
+{% if globals and globals.footer %}
+  {% set f = globals.footer %}
+  <footer class="bg-body-tertiary mt-5 pt-5 pb-4">
+    <div class="container">
+      {% if f.text %}
+        <div class="mb-4">{{ f.text | pt | safe }}</div>
+      {% endif %}
+
+      {% if f.columns and (f.columns | length) > 0 %}
+        <div class="row g-4">
+          {% for col in f.columns %}
+            <div class="col-6 col-md-3">
+              {% if col.title %}<h3 class="h6">{{ col.title }}</h3>{% endif %}
+              {% if col.items and (col.items | length) > 0 %}
+                <ul class="list-unstyled">
+                  {% for link in col.items %}
+                    <li><a class="link-body-emphasis text-decoration-none" href="{{ link.url }}">{{ link.text }}</a></li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="text-body-secondary small mt-4">{{ f.copyright or '' }}</div>
+    </div>
+  </footer>
+{% endif %}
+

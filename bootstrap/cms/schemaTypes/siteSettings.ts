@@ -7,6 +7,7 @@ export default defineType({
   fields: [
     defineField({ name: 'siteTitle', type: 'string', title: 'Site title' }),
     defineField({ name: 'header', type: 'header', title: 'Header' }),
+    defineField({ name: 'footer', type: 'footer', title: 'Footer' }),
   ],
   preview: {
     select: {title: 'siteTitle'},
@@ -15,4 +16,3 @@ export default defineType({
     }
   }
 })
-

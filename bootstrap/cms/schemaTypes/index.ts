@@ -11,6 +11,7 @@ import pricingTable from './objects/pricingTable'
 import faqAccordion from './objects/faqAccordion'
 import ctaBanner from './objects/ctaBanner'
 import siteSettings from '../schemaTypes/siteSettings'
+import footer from './objects/footer'
 
 export const schemaTypes = [
   landingPage,
@@ -26,4 +27,5 @@ export const schemaTypes = [
   faqAccordion,
   ctaBanner,
   siteSettings,
+  footer,
 ]

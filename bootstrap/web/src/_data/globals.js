@@ -3,7 +3,8 @@ import {client} from './sanityClient.js'
 
 const query = groq`*[_type=="siteSettings"][0]{
   siteTitle,
-  header
+  header,
+  footer
 }`
 
 export default async function() {
@@ -17,4 +18,3 @@ export default async function() {
     return {}
   }
 }
-
