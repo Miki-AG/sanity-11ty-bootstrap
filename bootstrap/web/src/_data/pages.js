@@ -6,7 +6,12 @@ const query = groq`*[_type=="landingPage"]{
   blocks[]{
     ...,
     _type=="imageWithCaption"=>{
-      ...,"url":coalesce(image.asset->url,null)
+      ...,
+      "url":coalesce(image.asset->url,null)
+    },
+    _type=="heroCover"=>{
+      ...,
+      "bgUrl":coalesce(bgImage.asset->url,null)
     }
   }
 } | order(title asc)`

@@ -1,11 +1,19 @@
 <section class="container">
   <div class="row">
     <div class="col-md-6">
-      {{ block.left | safe }}
+      {# Prefer Portable Text if available; fallback to legacy HTML #}
+      {% if block.left and block.left[0] and block.left[0]._type %}
+        {{ block.left | pt | safe }}
+      {% else %}
+        {{ block.left | safe }}
+      {% endif %}
     </div>
     <div class="col-md-6">
-      {{ block.right | safe }}
+      {% if block.right and block.right[0] and block.right[0]._type %}
+        {{ block.right | pt | safe }}
+      {% else %}
+        {{ block.right | safe }}
+      {% endif %}
     </div>
   </div>
 </section>
-

@@ -30,7 +30,6 @@ echo "Schemas updated successfully."
 
 WEB_DIR="$PROJECT_DIR/web"
 INCLUDES_DIR="$WEB_DIR/src/_includes"
-BLOCKS_DIR="$INCLUDES_DIR/blocks"
 
 if [ ! -d "$WEB_DIR" ]; then
   echo "Error: Web directory '$WEB_DIR' not found."
@@ -42,7 +41,35 @@ if [ ! -d "$INCLUDES_DIR" ]; then
   exit 1
 fi
 
-echo "Updating blocks in '$BLOCKS_DIR'..."
-cp -r "$SCRIPT_DIR/bootstrap/web/src/_includes/blocks" "$INCLUDES_DIR"
-echo "Blocks updated successfully."
+echo "Syncing all Nunjucks includes in '$INCLUDES_DIR'..."
+mkdir -p "$INCLUDES_DIR"
+cp -R "$SCRIPT_DIR/bootstrap/web/src/_includes/." "$INCLUDES_DIR/"
+echo "Includes updated successfully."
 
+# --- Sync all data definitions ---
+echo "Syncing all data definitions in 'web/src/_data'..."
+mkdir -p "$WEB_DIR/src/_data"
+cp -R "$SCRIPT_DIR/bootstrap/web/src/_data/." "$WEB_DIR/src/_data/"
+echo "Data definitions updated."
+
+# --- Sync Eleventy config (registers filters, etc.) ---
+ELEVENTY_SRC="$SCRIPT_DIR/bootstrap/web/.eleventy.js"
+ELEVENTY_DST="$WEB_DIR/.eleventy.js"
+if [ -f "$ELEVENTY_SRC" ]; then
+  if [ -f "$ELEVENTY_DST" ]; then
+    cp "$ELEVENTY_DST" "$ELEVENTY_DST.bak"
+    echo "Backed up existing .eleventy.js to .eleventy.js.bak"
+  fi
+  cp "$ELEVENTY_SRC" "$ELEVENTY_DST"
+  echo ".eleventy.js updated."
+fi
+
+# --- Sync listener script (for live rebuilds) ---
+LISTENER_SRC="$SCRIPT_DIR/bootstrap/web/listen.js"
+LISTENER_DST="$WEB_DIR/listen.js"
+if [ -f "$LISTENER_SRC" ]; then
+  cp "$LISTENER_SRC" "$LISTENER_DST"
+  echo "listen.js updated."
+fi
+
+echo "Update complete."
