@@ -1,22 +1,23 @@
-<section class="container">
-  <header
-    class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom"
-  >
-    <a
-      href="/"
-      class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
-    >
-      <svg class="bi me-2" width="40" height="32" aria-hidden="true">
-        <use xlink:href="#bootstrap"></use>
-      </svg>
-      <span class="fs-4">{{ block.title }}</span>
-    </a>
-    <ul class="nav nav-pills">
-      {% for item in block.navItems %}
-      <li class="nav-item">
-        <a href="{{ item.url }}" class="nav-link">{{ item.text }}</a>
-      </li>
-      {% endfor %}
-    </ul>
-  </header>
-</section>
+{# Responsive Bootstrap navbar with collapsible menu (Nunjucks-safe) #}
+{% set navId = 'nav-' ~ (block._key or 'header') %}
+
+<nav class="navbar navbar-expand-md navbar-light bg-body-tertiary mb-4">
+  <div class="container">
+    <a class="navbar-brand" href="/">{{ block.title or 'Site' }}</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#{{ navId }}" aria-controls="{{ navId }}" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="{{ navId }}">
+      {% if block.navItems and (block.navItems | length) > 0 %}
+        <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+          {% for item in block.navItems %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ item.url }}">{{ item.text }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  </div>
+  
+</nav>
