@@ -2,9 +2,22 @@
 
 This starter lets you manage a CMS locally and build your site with it.
 You can create and update landing pages through a simple web interface, and 11ty rebuilds the site automatically.
-It goes beyond plain markdown by supporting Sanity’s content blocks, so you can design rich, flexible pages while keeping full control of your content and code.
+It goes beyond plain markdown by supporting Sanity’s Portable Text content blocks, so you can design rich, flexible pages while keeping full control of your content and code.
 
 It comes with a set of scripts to quickly generate and run a new web project using Sanity.io as a local headless CMS, 11ty as a static site generator, and Bootstrap for styling.
+
+Blocks included (Portable Text-ready):
+- heroCover: headline, rich lead, background image, buttons
+- featuresGrid: columns with icon/Bootstrap Icon title + text
+- cardsGrid: album-like cards with image, title, rich text, link
+- pricingTable: plans with price/period, rich features, CTA
+- faqAccordion: collapsible Q&A using Bootstrap Accordion
+- ctaBanner: compact call-to-action banner with variants
+- imageWithCaption: figure with alt + caption
+- twoColumnText: two rich-text columns
+
+Global content:
+- Header (navbar) and Footer are managed centrally via a single "Site Settings" document in Sanity and rendered automatically on every page.
 
 ## Requirements
 
@@ -81,6 +94,11 @@ This script uses `pm2` to run the servers in the background. It will also automa
 - **11ty Site:** `http://localhost:8080`
 - **Sanity Studio:** `http://localhost:3333`
 
+After Studio starts, create and publish a single "Site Settings" document:
+- Add Header: site title + navigation items
+- Add Footer: optional intro text, link columns, copyright
+Publishing this makes the global header/footer appear on the site.
+
 ### 3. Stop the Development Servers
 
 To stop all running development servers, use the `stop.sh` script from your project's directory:
@@ -91,13 +109,23 @@ To stop all running development servers, use the `stop.sh` script from your proj
 
 This will stop the `pm2` processes for the 11ty site, Sanity Studio, and the content listener.
 
-### 4. Updating Schemas
+### 4. Update an Existing Project (update.sh menu)
 
-If you have updated the schemas in the `bootstrap` directory of the generator, you can update an existing project with the new schemas by running the `update.sh` script from your project's directory:
+Run from inside your project directory:
 
 ```bash
 ../sanity-11ty-bootstrap/update.sh .
 ```
+
+Choose what to update:
+- 1) Get new templates/pages only: adds missing files under `web/src/_includes` and `web/src/pages` (no overwrite).
+- 2) Get new templates/pages and update existing templates/pages: adds and overwrites files under `web/src/_includes` and `web/src/pages`.
+- 3) Update scripts: updates `web/src/_data`, `web/.eleventy.js`, `web/listen.js`, and root scripts `serve.sh`, `stop.sh`, `update.sh`.
+- 4) Update all: does both 2) and 3).
+
+Notes:
+- Copies use `cp -R` (merge): extra files in your project are kept.
+- If you maintain custom pages or includes, use option 1 to avoid overwriting them.
 
 ### 5. Demo
 
@@ -106,3 +134,11 @@ If you have updated the schemas in the `bootstrap` directory of the generator, y
 <video src="./demo.mp4" width="600" autoplay loop muted playsinline>
   Your browser does not support the video tag.
 </video>
+
+## Technical Notes
+
+- Portable Text: The site renders Sanity Portable Text via a Nunjucks filter `pt` registered in `web/.eleventy.js`. The helper lives in `web/src/_data/portableText.js`.
+- Global header/footer: Fetched via `web/src/_data/globals.js` and injected by the base layout. Per‑page header blocks are not needed.
+- Bootstrap Icons: Enabled via CDN in the base layout; use `<i class="bi bi-star-fill"></i>` or set `bi` field on featuresGrid items.
+- CSS defaults: `web/src/assets/site.css` removes body margin, keeps header/footer full‑bleed, and provides light helpers for hero, features and cards.
+- Live updates: `web/listen.js` listens for `landingPage` and `siteSettings` changes and touches data files to trigger 11ty rebuilds (used by `serve.sh`).
