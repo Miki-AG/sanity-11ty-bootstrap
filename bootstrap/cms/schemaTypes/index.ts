@@ -10,6 +10,7 @@ import cardsGrid from './objects/cardsGrid'
 import pricingTable from './objects/pricingTable'
 import faqAccordion from './objects/faqAccordion'
 import ctaBanner from './objects/ctaBanner'
+import siteSettings from '../schemaTypes/siteSettings'
 
 export const schemaTypes = [
   landingPage,
@@ -24,4 +25,5 @@ export const schemaTypes = [
   pricingTable,
   faqAccordion,
   ctaBanner,
+  siteSettings,
 ]

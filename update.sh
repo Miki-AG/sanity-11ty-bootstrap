@@ -72,4 +72,12 @@ if [ -f "$LISTENER_SRC" ]; then
   echo "listen.js updated."
 fi
 
+# --- Sync pages (copy all templates under pages/) ---
+PAGES_DIR_SRC="$SCRIPT_DIR/bootstrap/web/src/pages"
+PAGES_DIR_DST="$WEB_DIR/src/pages"
+mkdir -p "$PAGES_DIR_DST"
+echo "Syncing pages from '$PAGES_DIR_SRC' to '$PAGES_DIR_DST'..."
+cp -R "$PAGES_DIR_SRC/." "$PAGES_DIR_DST/"
+echo "Pages updated."
+
 echo "Update complete."
