@@ -131,6 +131,19 @@ Notes on omitted items (for scope):
 - Sanity content published (no drafts) when using public client; ENV in `web/.env` matches Studio project/dataset.
 - Optional: temporary debug traces in `landing.njk` (HTML comments) to print `_type`, keys, and counts during development.
 
+## Schema Safety Rules (to prevent syntax errors)
+- Array/object delimiters: visually balance `of: [{ ... }]` and object field arrays; avoid stray brackets.
+- Keep schemas minimal and flat: prefer simple field arrays over deep nesting to reduce bracket complexity.
+- Use TypeScript checks locally: run `cd cms && npx tsc --noEmit` to catch syntax/typing errors early.
+- Sanity CLI check: run `cd cms && npx sanity check` to validate schema consistency.
+- Editor formatting: ensure auto-format on save to surface bracket mismatches.
+
+## Automation (recommended)
+- Add a lightweight script to validate before syncing:
+  - `cms`: `npx tsc --noEmit && npx sanity check`
+  - `web`: `node -e "require('nunjucks')"` and a quick `@11ty/eleventy` dry run locally.
+- Optionally integrate these into `update.sh` as preflight checks (non-blocking warnings) to catch issues before copying to target projects.
+
 ## Acceptance Criteria
 - Editors can add any of the 9 blocks to a landing page in Sanity.
 - Rich formatted copy (Portable Text) is supported and rendered for hero leads, feature intros/items, card text, pricing subtitles/features, FAQ answers, two-column text, and CTAs.

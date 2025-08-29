@@ -5,6 +5,7 @@ import header from './objects/header'
 import navItem from './objects/navItem'
 import portableText from './objects/portableText'
 import heroCover from './objects/heroCover'
+import featuresGrid from './objects/featuresGrid'
 
 export const schemaTypes = [
   landingPage,
@@ -14,4 +15,5 @@ export const schemaTypes = [
   navItem,
   portableText,
   heroCover,
+  featuresGrid,
 ]

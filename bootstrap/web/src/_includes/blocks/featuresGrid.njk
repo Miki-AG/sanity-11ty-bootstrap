@@ -1,0 +1,41 @@
+{# Nunjucks-safe: no JS ternaries or .length #}
+{% set cols = block.columns or 3 %}
+{% set colClass = 'col-md-4' %}
+{% if cols == 2 %}{% set colClass = 'col-md-6' %}{% elseif cols == 4 %}{% set colClass = 'col-md-3' %}{% endif %}
+
+<section class="container my-5">
+  {% if block.title %}
+    <h2 class="mb-3">{{ block.title }}</h2>
+  {% endif %}
+
+  {% if block.intro %}
+    <div class="text-muted mb-4">{{ block.intro | pt | safe }}</div>
+  {% endif %}
+
+  {% if block.items and (block.items | length) > 0 %}
+    <div class="row g-4">
+      {% for item in block.items %}
+        <div class="{{ colClass }}">
+          <div class="h-100">
+            {% if item.icon %}
+              <div class="fs-1 mb-2">{{ item.icon }}</div>
+            {% endif %}
+            {% if item.title %}
+              {% if item.url %}
+                <h3 class="h5"><a href="{{ item.url }}" class="text-decoration-none">{{ item.title }}</a></h3>
+              {% else %}
+                <h3 class="h5">{{ item.title }}</h3>
+              {% endif %}
+            {% endif %}
+            {% if item.text %}
+              <div class="text-body-secondary">{{ item.text | pt | safe }}</div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-warning">No features configured.</div>
+  {% endif %}
+</section>
+

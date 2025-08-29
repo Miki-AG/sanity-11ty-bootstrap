@@ -13,6 +13,7 @@ export default defineType({
       type: 'array',
       of: [
         {type: 'heroCover'},
+        {type: 'featuresGrid'},
         {type: 'imageWithCaption'},
         {type: 'twoColumnText'},
         {type: 'header'}
