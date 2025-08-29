@@ -15,6 +15,7 @@ export default defineType({
         {type: 'heroCover'},
         {type: 'featuresGrid'},
         {type: 'cardsGrid'},
+        {type: 'pricingTable'},
         {type: 'imageWithCaption'},
         {type: 'twoColumnText'},
         {type: 'header'}

@@ -7,6 +7,7 @@ import portableText from './objects/portableText'
 import heroCover from './objects/heroCover'
 import featuresGrid from './objects/featuresGrid'
 import cardsGrid from './objects/cardsGrid'
+import pricingTable from './objects/pricingTable'
 
 export const schemaTypes = [
   landingPage,
@@ -18,4 +19,5 @@ export const schemaTypes = [
   heroCover,
   featuresGrid,
   cardsGrid,
+  pricingTable,
 ]
