@@ -1,0 +1,42 @@
+{# Nunjucks-safe; renders a responsive grid of cards #}
+<section class="container my-5">
+  {% if block.title %}
+    <h2 class="mb-3">{{ block.title }}</h2>
+  {% endif %}
+
+  {% if block.intro %}
+    <div class="text-muted mb-4">{{ block.intro | pt | safe }}</div>
+  {% endif %}
+
+  {% if block.cards and (block.cards | length) > 0 %}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      {% for card in block.cards %}
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            {% if card.imageUrl %}
+              <img src="{{ card.imageUrl }}" class="card-img-top" alt="{{ card.alt or '' }}">
+            {% endif %}
+            <div class="card-body d-flex flex-column">
+              {% if card.title %}
+                <h3 class="h5 card-title">{{ card.title }}</h3>
+              {% endif %}
+              {% if card.text %}
+                <div class="card-text flex-grow-1">{{ card.text | pt | safe }}</div>
+              {% else %}
+                <div class="flex-grow-1"></div>
+              {% endif %}
+              {% if card.url %}
+                <div class="mt-3">
+                  <a href="{{ card.url }}" class="btn btn-primary">Learn more</a>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-warning">No cards configured.</div>
+  {% endif %}
+</section>
+

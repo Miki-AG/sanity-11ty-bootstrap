@@ -6,6 +6,7 @@ import navItem from './objects/navItem'
 import portableText from './objects/portableText'
 import heroCover from './objects/heroCover'
 import featuresGrid from './objects/featuresGrid'
+import cardsGrid from './objects/cardsGrid'
 
 export const schemaTypes = [
   landingPage,
@@ -16,4 +17,5 @@ export const schemaTypes = [
   portableText,
   heroCover,
   featuresGrid,
+  cardsGrid,
 ]

@@ -12,6 +12,13 @@ const query = groq`*[_type=="landingPage"]{
     _type=="heroCover"=>{
       ...,
       "bgUrl":coalesce(bgImage.asset->url,null)
+    },
+    _type=="cardsGrid"=>{
+      ...,
+      cards[]{
+        ...,
+        "imageUrl":coalesce(image.asset->url,null)
+      }
     }
   }
 } | order(title asc)`
