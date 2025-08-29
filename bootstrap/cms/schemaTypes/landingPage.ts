@@ -16,6 +16,7 @@ export default defineType({
         {type: 'featuresGrid'},
         {type: 'cardsGrid'},
         {type: 'pricingTable'},
+        {type: 'faqAccordion'},
         {type: 'imageWithCaption'},
         {type: 'twoColumnText'},
         {type: 'header'}

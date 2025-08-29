@@ -1,0 +1,37 @@
+{# Nunjucks-safe FAQ accordion; unique IDs from block._key #}
+{% set accId = 'acc-' ~ (block._key or 'faq') %}
+
+<section class="container my-5">
+  {% if block.title %}
+    <h2 class="mb-3">{{ block.title }}</h2>
+  {% endif %}
+
+  {% if block.items and (block.items | length) > 0 %}
+    <div class="accordion" id="{{ accId }}">
+      {% for item in block.items %}
+        {% set itemId = accId ~ '-i' ~ loop.index %}
+        {% set targetId = itemId ~ '-c' %}
+        {% set btnClass = 'accordion-button' %}
+        {% if not loop.first %}{% set btnClass = btnClass ~ ' collapsed' %}{% endif %}
+        {% set expanded = 'false' %}
+        {% if loop.first %}{% set expanded = 'true' %}{% endif %}
+        {% set collapseClass = 'accordion-collapse collapse' %}
+        {% if loop.first %}{% set collapseClass = collapseClass ~ ' show' %}{% endif %}
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="{{ itemId }}-h">
+            <button class="{{ btnClass }}" type="button" data-bs-toggle="collapse" data-bs-target="#{{ targetId }}" aria-expanded="{{ expanded }}" aria-controls="{{ targetId }}">
+              {{ item.question }}
+            </button>
+          </h3>
+          <div id="{{ targetId }}" class="{{ collapseClass }}" aria-labelledby="{{ itemId }}-h" data-bs-parent="#{{ accId }}">
+            <div class="accordion-body">
+              {{ item.answer | pt | safe }}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-warning">No questions configured.</div>
+  {% endif %}
+</section>
