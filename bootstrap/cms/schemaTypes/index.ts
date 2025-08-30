@@ -10,6 +10,7 @@ import cardsGrid from './objects/cardsGrid'
 import pricingTable from './objects/pricingTable'
 import faqAccordion from './objects/faqAccordion'
 import ctaBanner from './objects/ctaBanner'
+import quotes from './objects/quotes'
 import siteSettings from '../schemaTypes/siteSettings'
 import footer from './objects/footer'
 
@@ -26,6 +27,7 @@ export const schemaTypes = [
   pricingTable,
   faqAccordion,
   ctaBanner,
+  quotes,
   siteSettings,
   footer,
 ]

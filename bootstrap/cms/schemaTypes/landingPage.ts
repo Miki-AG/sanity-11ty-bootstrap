@@ -19,7 +19,8 @@ export default defineType({
         {type: 'faqAccordion'},
         {type: 'ctaBanner'},
         {type: 'imageWithCaption'},
-        {type: 'twoColumnText'}
+        {type: 'twoColumnText'},
+        {type: 'quotes'}
       ]
     })
   ]

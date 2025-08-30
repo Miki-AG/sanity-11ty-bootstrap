@@ -9,6 +9,10 @@ const query = groq`*[_type=="landingPage"]{
       ...,
       "url":coalesce(image.asset->url,null)
     },
+    _type=="quotes"=>{
+      ...,
+      "imageUrl":coalesce(image.asset->url,null)
+    },
     _type=="heroCover"=>{
       ...,
       "bgUrl":coalesce(bgImage.asset->url,null)
