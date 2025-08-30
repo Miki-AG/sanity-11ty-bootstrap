@@ -11,7 +11,7 @@ const query = groq`*[_type=="landingPage"]{
     },
     _type=="quotes"=>{
       ...,
-      "imageUrl":coalesce(image.asset->url,null)
+      "bgUrl":coalesce(coalesce(bgImage.asset->url,image.asset->url),null)
     },
     _type=="heroCover"=>{
       ...,

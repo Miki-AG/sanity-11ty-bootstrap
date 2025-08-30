@@ -28,12 +28,11 @@
       {% endif %}
     </div>
     <div class="col-md-5 order-md-2">
-      {% if block.imageUrl %}
-        <img src="{{ block.imageUrl }}" class="img-fluid rounded" alt="{{ block.imageAlt or '' }}">
+      {% if block.bgUrl %}
+        <img src="{{ block.bgUrl }}" class="img-fluid rounded" alt="{{ block.imageAlt or '' }}">
       {% else %}
         <div class="alert alert-warning" role="alert">[missing image]</div>
       {% endif %}
     </div>
   </div>
 </section>
-

@@ -21,12 +21,9 @@ export default defineType({
       },
       initialValue: 'left',
     }),
-    defineField({
-      name: 'image',
-      type: 'image',
-      title: 'Right image',
-      options: { hotspot: true },
-    }),
+    // Prefer bgImage to align with heroCover; keep image for backward compatibility
+    defineField({ name: 'bgImage', type: 'image', title: 'Right image (preferred)', options: { hotspot: true } }),
+    defineField({ name: 'image', type: 'image', title: 'Right image (legacy)' }),
     defineField({ name: 'imageAlt', type: 'string', title: 'Image alt text' }),
     defineField({
       name: 'items',
@@ -56,4 +53,3 @@ export default defineType({
     }
   }
 })
-
