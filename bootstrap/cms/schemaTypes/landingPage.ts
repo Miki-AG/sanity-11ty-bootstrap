@@ -20,7 +20,8 @@ export default defineType({
         {type: 'ctaBanner'},
         {type: 'imageWithCaption'},
         {type: 'twoColumnText'},
-        {type: 'quotes'}
+        {type: 'quotes'},
+        {type: 'portfolio'}
       ]
     })
   ]

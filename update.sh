@@ -49,6 +49,7 @@ case "$choice" in
     else
       echo "Note: Skipped schemas (cms/ missing or source schemas not found)."
     fi
+    bash "$SCRIPT_DIR/_update_data.sh" "$SCRIPT_DIR" "$WEB_DIR"
     echo "Done."
     ;;
   2)
@@ -59,6 +60,7 @@ case "$choice" in
     else
       echo "Note: Skipped schemas (cms/ missing or source schemas not found)."
     fi
+    bash "$SCRIPT_DIR/_update_data.sh" "$SCRIPT_DIR" "$WEB_DIR"
     echo "Done."
     ;;
   3)

@@ -23,6 +23,13 @@ const query = groq`*[_type=="landingPage"]{
         ...,
         "imageUrl":coalesce(image.asset->url,null)
       }
+    },
+    _type=="portfolio"=>{
+      ...,
+      items[]{
+        ...,
+        "imageUrl":coalesce(image.asset->url,null)
+      }
     }
   }
 } | order(title asc)`

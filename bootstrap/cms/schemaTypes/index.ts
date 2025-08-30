@@ -11,6 +11,7 @@ import pricingTable from './objects/pricingTable'
 import faqAccordion from './objects/faqAccordion'
 import ctaBanner from './objects/ctaBanner'
 import quotes from './objects/quotes'
+import portfolio from './objects/portfolio'
 import siteSettings from '../schemaTypes/siteSettings'
 import footer from './objects/footer'
 
@@ -28,6 +29,7 @@ export const schemaTypes = [
   faqAccordion,
   ctaBanner,
   quotes,
+  portfolio,
   siteSettings,
   footer,
 ]
