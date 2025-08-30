@@ -25,65 +25,44 @@ if [ ! -d "$WEB_DIR" ]; then
 fi
 
 echo "What would you like to update?"
-echo "  1) Get new templates/pages only"
-echo "  2) Get new templates/pages and update existing templates/pages"
-echo "  3) Update scripts"
-echo "  4) Update all (templates/pages + scripts)"
-read -r -p "Enter choice [1-4]: " choice
+echo "  1) Add new templates/pages/schemas (no overwrite)"
+echo "  2) Add + update templates/pages/schemas (overwrite)"
+echo "  3) Update scripts (listen.js)"
+read -r -p "Enter choice [1-3]: " choice
 
 SRC_INCLUDES_ROOT="$SCRIPT_DIR/bootstrap/web/src/_includes"
 DST_INCLUDES_ROOT="$WEB_DIR/src/_includes"
 SRC_PAGES_ROOT="$SCRIPT_DIR/bootstrap/web/src/pages"
 DST_PAGES_ROOT="$WEB_DIR/src/pages"
+SRC_SCHEMA_ROOT="$SCRIPT_DIR/bootstrap/cms/schemaTypes"
+CMS_DIR="$PROJECT_DIR/cms"
+DST_SCHEMA_ROOT="$CMS_DIR/schemaTypes"
 
 mkdir -p "$DST_INCLUDES_ROOT" "$DST_PAGES_ROOT"
 
 case "$choice" in
   1)
-    echo "Adding new templates/pages (no overwrite)..."
-    # _includes (all templates under includes, including blocks)
-    ( cd "$SRC_INCLUDES_ROOT" && find . -type f ) | while read -r rel; do
-      src="$SRC_INCLUDES_ROOT/$rel"; dst="$DST_INCLUDES_ROOT/$rel"; dst_dir="$(dirname "$dst")"
-      if [ ! -e "$dst" ]; then
-        mkdir -p "$dst_dir" && cp "$src" "$dst" && echo "+ _includes/$rel"
-      fi
-    done
-    # pages
-    ( cd "$SRC_PAGES_ROOT" && find . -type f ) | while read -r rel; do
-      src="$SRC_PAGES_ROOT/$rel"; dst="$DST_PAGES_ROOT/$rel"; dst_dir="$(dirname "$dst")"
-      if [ ! -e "$dst" ]; then
-        mkdir -p "$dst_dir" && cp "$src" "$dst" && echo "+ pages/$rel"
-      fi
-    done
-    echo "Done. New templates/pages added."
+    mkdir -p "$DST_INCLUDES_ROOT" "$DST_PAGES_ROOT"
+    bash "$SCRIPT_DIR/_add_new_components.sh" "$SRC_INCLUDES_ROOT" "$DST_INCLUDES_ROOT" "$SRC_PAGES_ROOT" "$DST_PAGES_ROOT"
+    if [ -d "$CMS_DIR" ] && [ -d "$SRC_SCHEMA_ROOT" ]; then
+      bash "$SCRIPT_DIR/_add_new_schemas.sh" "$SRC_SCHEMA_ROOT" "$DST_SCHEMA_ROOT"
+    else
+      echo "Note: Skipped schemas (cms/ missing or source schemas not found)."
+    fi
+    echo "Done."
     ;;
   2)
-    echo "Updating templates/pages (add + overwrite)..."
-    cp -R "$SRC_INCLUDES_ROOT/." "$DST_INCLUDES_ROOT/"
-    cp -R "$SRC_PAGES_ROOT/." "$DST_PAGES_ROOT/"
-    echo "Templates/pages updated."
+    mkdir -p "$DST_INCLUDES_ROOT" "$DST_PAGES_ROOT"
+    bash "$SCRIPT_DIR/_update_existing_components.sh" "$SRC_INCLUDES_ROOT" "$DST_INCLUDES_ROOT" "$SRC_PAGES_ROOT" "$DST_PAGES_ROOT"
+    if [ -d "$CMS_DIR" ] && [ -d "$SRC_SCHEMA_ROOT" ]; then
+      bash "$SCRIPT_DIR/_update_existing_schemas.sh" "$SRC_SCHEMA_ROOT" "$DST_SCHEMA_ROOT"
+    else
+      echo "Note: Skipped schemas (cms/ missing or source schemas not found)."
+    fi
+    echo "Done."
     ;;
   3)
-    echo "Updating scripts (_data + .eleventy.js + listen.js...)"
-    # _data
-    mkdir -p "$WEB_DIR/src/_data"
-    cp -R "$SCRIPT_DIR/bootstrap/web/src/_data/." "$WEB_DIR/src/_data/"
-    # Eleventy + listener
-    cp -R "$SCRIPT_DIR/bootstrap/web/.eleventy.js" "$WEB_DIR/.eleventy.js"
-    cp -R "$SCRIPT_DIR/bootstrap/web/listen.js" "$WEB_DIR/listen.js"
-    echo "Scripts updated."
-    ;;
-  4)
-    echo "Updating templates/pages (add + overwrite) and scripts..."
-    # Templates/pages
-    cp -R "$SRC_INCLUDES_ROOT/." "$DST_INCLUDES_ROOT/"
-    cp -R "$SRC_PAGES_ROOT/." "$DST_PAGES_ROOT/"
-    echo "Templates/pages updated."
-    # Scripts
-    mkdir -p "$WEB_DIR/src/_data"
-    cp -R "$SCRIPT_DIR/bootstrap/web/src/_data/." "$WEB_DIR/src/_data/"
-    cp -R "$SCRIPT_DIR/bootstrap/web/.eleventy.js" "$WEB_DIR/.eleventy.js"
-    cp -R "$SCRIPT_DIR/bootstrap/web/listen.js" "$WEB_DIR/listen.js"
+    bash "$SCRIPT_DIR/_update_listenjs.sh" "$SCRIPT_DIR" "$WEB_DIR"
     echo "Scripts updated."
     ;;
   *)
@@ -91,5 +70,3 @@ case "$choice" in
     exit 1
     ;;
 esac
-
-echo "Update complete."
