@@ -34,6 +34,15 @@ fi
 rm -rf "$LOG_DIR/$PROJECT_NAME"
 mkdir -p "$LOG_DIR/$PROJECT_NAME"
 
+# Preflight: run a one-off 11ty build to catch template errors
+echo "Running preflight 11ty build to catch template errors..."
+if ! ( cd "$WEB_DIR" && npx @11ty/eleventy > "$LOG_DIR/$PROJECT_NAME/11ty-preflight.log" 2>&1 ); then
+  echo "Preflight build FAILED. See $LOG_DIR/$PROJECT_NAME/11ty-preflight.log for details."
+  echo "Tip: run 'npx @11ty/eleventy' in $WEB_DIR to reproduce locally."
+  exit 1
+fi
+echo "Preflight build passed. Starting dev servers..."
+
 # Start 11ty server with pm2
 echo "Starting 11ty server for project '$PROJECT_NAME' ભા"
 pm2 start "npx @11ty/eleventy --serve" \
