@@ -37,6 +37,8 @@ DST_PAGES_ROOT="$WEB_DIR/src/pages"
 SRC_SCHEMA_ROOT="$SCRIPT_DIR/bootstrap/cms/schemaTypes"
 CMS_DIR="$PROJECT_DIR/cms"
 DST_SCHEMA_ROOT="$CMS_DIR/schemaTypes"
+SRC_ASSETS_ROOT="$SCRIPT_DIR/bootstrap/web/src/assets"
+DST_ASSETS_ROOT="$WEB_DIR/src/assets"
 
 mkdir -p "$DST_INCLUDES_ROOT" "$DST_PAGES_ROOT"
 
@@ -44,6 +46,10 @@ case "$choice" in
   1)
     mkdir -p "$DST_INCLUDES_ROOT" "$DST_PAGES_ROOT"
     bash "$SCRIPT_DIR/_add_new_components.sh" "$SRC_INCLUDES_ROOT" "$DST_INCLUDES_ROOT" "$SRC_PAGES_ROOT" "$DST_PAGES_ROOT"
+    # assets (non-destructive add)
+    if [ -d "$SRC_ASSETS_ROOT" ]; then
+      bash "$SCRIPT_DIR/_add_new_assets.sh" "$SRC_ASSETS_ROOT" "$DST_ASSETS_ROOT"
+    fi
     if [ -d "$CMS_DIR" ] && [ -d "$SRC_SCHEMA_ROOT" ]; then
       bash "$SCRIPT_DIR/_add_new_schemas.sh" "$SRC_SCHEMA_ROOT" "$DST_SCHEMA_ROOT"
     else
@@ -55,6 +61,10 @@ case "$choice" in
   2)
     mkdir -p "$DST_INCLUDES_ROOT" "$DST_PAGES_ROOT"
     bash "$SCRIPT_DIR/_update_existing_components.sh" "$SRC_INCLUDES_ROOT" "$DST_INCLUDES_ROOT" "$SRC_PAGES_ROOT" "$DST_PAGES_ROOT"
+    # assets (overwrite)
+    if [ -d "$SRC_ASSETS_ROOT" ]; then
+      bash "$SCRIPT_DIR/_update_existing_assets.sh" "$SRC_ASSETS_ROOT" "$DST_ASSETS_ROOT"
+    fi
     if [ -d "$CMS_DIR" ] && [ -d "$SRC_SCHEMA_ROOT" ]; then
       bash "$SCRIPT_DIR/_update_existing_schemas.sh" "$SRC_SCHEMA_ROOT" "$DST_SCHEMA_ROOT"
     else

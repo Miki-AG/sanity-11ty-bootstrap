@@ -20,6 +20,7 @@ export default defineType({
         type: 'object',
         fields: [
           defineField({ name: 'image', type: 'image', title: 'Thumbnail', options: {hotspot: true} }),
+          defineField({ name: 'imageAlt', type: 'string', title: 'Image alt text' }),
           defineField({ name: 'title', type: 'string', title: 'Title', validation: r => r.required() }),
           defineField({ name: 'meta', type: 'string', title: 'Meta (e.g., date or category)' }),
           defineField({ name: 'url', type: 'url', title: 'Link URL' }),
@@ -42,4 +43,3 @@ export default defineType({
     }
   }
 })
-

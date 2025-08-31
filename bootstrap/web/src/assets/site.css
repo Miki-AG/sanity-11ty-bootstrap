@@ -35,3 +35,13 @@ figcaption {
 
 /* Cards: remove last paragraph spacing in bodies */
 .card-text > :last-child { margin-bottom: 0; }
+
+/* Portfolio styles */
+.portfolio__thumb-wrap { width: 100%; min-width: 0; overflow: hidden; }
+.portfolio__thumb { display: block; width: 100%; max-width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; transition: transform .15s ease, filter .15s ease; }
+/* Flex-based layout inside each portfolio item for consistent 30/70 split */
+.portfolio__item { display: flex; gap: 1rem; align-items: flex-start; }
+.portfolio__thumb-wrap { flex: 0 0 30%; max-width: 30%; }
+.portfolio__text { flex: 1 1 0; min-width: 0; }
+.portfolio__item:hover .portfolio__thumb { transform: scale(1.02); filter: brightness(1.02); }
+.portfolio__item:hover .portfolio__title { text-decoration: underline; }
