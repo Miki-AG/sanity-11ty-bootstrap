@@ -12,6 +12,7 @@ import faqAccordion from './objects/faqAccordion'
 import ctaBanner from './objects/ctaBanner'
 import quotes from './objects/quotes'
 import portfolio from './objects/portfolio'
+import richText from './objects/richText'
 import siteSettings from '../schemaTypes/siteSettings'
 import footer from './objects/footer'
 
@@ -30,6 +31,7 @@ export const schemaTypes = [
   ctaBanner,
   quotes,
   portfolio,
+  richText,
   siteSettings,
   footer,
 ]

@@ -1,0 +1,14 @@
+{# Rich Text block: alignment left/right, no title #}
+{% set alignClass = 'text-start' %}
+{% if block.align == 'right' %}{% set alignClass = 'text-end' %}{% endif %}
+
+<section class="container my-5">
+  <div class="{{ alignClass }}">
+    {% if block.content and block.content[0] and block.content[0]._type %}
+      {{ block.content | pt | safe }}
+    {% else %}
+      {{ block.content | safe }}
+    {% endif %}
+  </div>
+</section>
+

@@ -21,7 +21,8 @@ export default defineType({
         {type: 'imageWithCaption'},
         {type: 'twoColumnText'},
         {type: 'quotes'},
-        {type: 'portfolio'}
+        {type: 'portfolio'},
+        {type: 'richText'}
       ]
     })
   ]
