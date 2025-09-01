@@ -1,0 +1,25 @@
+/* Pink–Bluegray theme */
+:root {
+  --bs-primary: #e83e8c; /* pink */
+  --bs-secondary: #6c757d; /* blue-gray */
+  --bs-success: #198754;
+  --bs-info: #0dcaf0;
+  --bs-warning: #ffc107;
+  --bs-danger: #dc3545;
+  --bs-light: #f8f9fa;
+  --bs-dark: #212529;
+
+  --bs-body-bg: #ffffff;
+  --bs-body-color: #212529;
+  --bs-link-color: var(--bs-primary);
+  --bs-link-hover-color: #c8236b;
+
+  --bs-font-sans-serif: 'Inter', system-ui, sans-serif;
+  --bs-body-font-family: var(--bs-font-sans-serif);
+  --bs-body-font-size: 1rem;
+  --bs-body-line-height: 1.5;
+
+  --bs-border-radius: 0.25rem;
+  --bs-spacer: 1rem;
+}
+

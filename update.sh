@@ -28,7 +28,8 @@ echo "What would you like to update?"
 echo "  1) Add new templates/pages/schemas (no overwrite)"
 echo "  2) Add + update templates/pages/schemas (overwrite)"
 echo "  3) Update scripts (listen.js)"
-read -r -p "Enter choice [1-3]: " choice
+echo "  4) Choose theme (copy to web/src/assets/theme.css)"
+read -r -p "Enter choice [1-4]: " choice
 
 SRC_INCLUDES_ROOT="$SCRIPT_DIR/bootstrap/web/src/_includes"
 DST_INCLUDES_ROOT="$WEB_DIR/src/_includes"
@@ -76,6 +77,25 @@ case "$choice" in
   3)
     bash "$SCRIPT_DIR/_update_listenjs.sh" "$SCRIPT_DIR" "$WEB_DIR"
     echo "Scripts updated."
+    ;;
+  4)
+    THEME_DIR="$SCRIPT_DIR/bootstrap/web/src/assets/themes"
+    if [ ! -d "$THEME_DIR" ]; then
+      echo "No themes directory found at $THEME_DIR"
+      exit 1
+    fi
+    echo "Available themes:"
+    ( cd "$THEME_DIR" && ls -1 *.css | sed 's/.css$//' )
+    read -r -p "Enter theme name: " THEME
+    SRC_THEME="$THEME_DIR/$THEME.css"
+    DST_THEME="$WEB_DIR/src/assets/theme.css"
+    if [ ! -f "$SRC_THEME" ]; then
+      echo "Theme '$THEME' not found at $SRC_THEME"
+      exit 1
+    fi
+    mkdir -p "$(dirname "$DST_THEME")"
+    cp "$SRC_THEME" "$DST_THEME"
+    echo "Theme '$THEME' copied to $DST_THEME"
     ;;
   *)
     echo "Invalid choice. Nothing changed."

@@ -1,0 +1,32 @@
+/* Minimalistic theme (default) using Bootstrap CSS variables */
+:root {
+  /* Colors */
+  --bs-primary: #0d6efd;
+  --bs-secondary: #6c757d;
+  --bs-success: #198754;
+  --bs-info: #0dcaf0;
+  --bs-warning: #ffc107;
+  --bs-danger: #dc3545;
+  --bs-light: #f8f9fa;
+  --bs-dark: #212529;
+
+  /* Base */
+  --bs-body-bg: #ffffff;
+  --bs-body-color: #212529;
+  --bs-link-color: var(--bs-primary);
+  --bs-link-hover-color: #0b5ed7; /* approx darken 10% */
+
+  /* Typography */
+  --bs-font-sans-serif: 'Inter', system-ui, sans-serif;
+  --bs-body-font-family: var(--bs-font-sans-serif);
+  --bs-body-font-size: 1rem;
+  --bs-body-line-height: 1.5;
+
+  /* Layout */
+  /* Container widths left to Bootstrap defaults */
+
+  /* Optional tweaks */
+  --bs-border-radius: 0.25rem;
+  --bs-spacer: 1rem;
+}
+
