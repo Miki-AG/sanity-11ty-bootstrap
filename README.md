@@ -53,10 +53,10 @@ From inside your project:
 ../sanity-11ty-bootstrap/update.sh .
 ```
 Pick one:
-- 1) New templates/pages only (add missing)
-- 2) Templates/pages (add + overwrite)
-- 3) Scripts (`_data`, `.eleventy.js`, `listen.js`, `serve.sh`, `stop.sh`, `update.sh`)
-- 4) Update everything
+- 1) Add new templates/pages/schemas (no overwrite) + data
+- 2) Add + update templates/pages/schemas (overwrite) + data
+- 3) Update scripts (eleventy config + listener)
+- 4) Choose theme (copies to `web/src/assets/theme.css`)
 
 ### Demo
 
@@ -69,3 +69,24 @@ Pick one:
 - Bootstrap Icons: Enabled via CDN in the base layout; use `<i class="bi bi-star-fill"></i>` or set `bi` field on featuresGrid items.
 - CSS defaults: `web/src/assets/site.css` removes body margin, keeps header/footer full‑bleed, and provides light helpers for hero, features and cards.
 - Live updates: `web/listen.js` listens for `landingPage` and `siteSettings` changes and touches data files to trigger 11ty rebuilds (used by `serve.sh`).
+
+## Components (minimal overview)
+
+- heroCover: Big hero with optional background image (`bgImage`) and alignment.
+- featuresGrid: Icon/text features in a responsive grid.
+- cardsGrid: Image/title/text cards in a grid.
+- pricingTable: Plans with features and CTA buttons.
+- faqAccordion: Question/answer accordion.
+- ctaBanner: Prominent call‑to‑action stripe.
+- imageWithCaption: Single image with caption.
+- twoColumnText: Two rich‑text columns.
+- quotes: Left quotes + right image, title alignment optional.
+- portfolio: Recent work list (30/70 thumb/text) + rich‑text side column, order toggle.
+- richText: Single rich‑text block with left/right alignment.
+- imageGallery: Horizontal gallery (equal widths), stacked on mobile.
+- adjustableImage: Single image with desktop width %, left/center/right alignment, optional rich‑text caption; full‑width on mobile.
+
+Themes
+- Base layout links `/assets/theme.css` then `/assets/site.css`.
+- Use `update.sh` option 4 to copy a theme (minimalistic, indigo‑pink, pink‑bluegray).
+- Themes expose Bootstrap CSS variables (colors, typography) and container max‑widths per breakpoint.

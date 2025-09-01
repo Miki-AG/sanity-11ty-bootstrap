@@ -37,6 +37,10 @@ const query = groq`*[_type=="landingPage"]{
         ...,
         "imageUrl":coalesce(image.asset->url,null)
       }
+    },
+    _type=="adjustableImage"=>{
+      ...,
+      "imageUrl":coalesce(image.asset->url,null)
     }
   }
 } | order(title asc)`

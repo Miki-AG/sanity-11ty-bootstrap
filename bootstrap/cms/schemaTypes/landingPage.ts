@@ -33,7 +33,8 @@ export default defineType({
         {type: 'quotes'},
         {type: 'portfolio'},
         {type: 'richText'},
-        {type: 'imageGallery'}
+        {type: 'imageGallery'},
+        {type: 'adjustableImage'}
       ]
     })
   ]

@@ -52,3 +52,9 @@ figcaption {
 @media (min-width: 992px) { .container { max-width: var(--container-max-lg, 960px); } }
 @media (min-width: 1200px) { .container { max-width: var(--container-max-xl, 1140px); } }
 @media (min-width: 1400px) { .container { max-width: var(--container-max-xxl, 1320px); } }
+
+/* Adjustable image: full width on mobile; constrain width on md+ */
+.adjustable-image { width: 100%; }
+@media (min-width: 768px) {
+  .adjustable-image { width: auto; max-width: var(--ai-width, 100%); }
+}

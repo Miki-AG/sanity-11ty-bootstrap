@@ -53,6 +53,13 @@ case "$choice" in
     fi
     if [ -d "$CMS_DIR" ] && [ -d "$SRC_SCHEMA_ROOT" ]; then
       bash "$SCRIPT_DIR/_add_new_schemas.sh" "$SRC_SCHEMA_ROOT" "$DST_SCHEMA_ROOT"
+      # Always refresh schema aggregator files so new components are registered
+      for f in index.ts landingPage.ts; do
+        if [ -f "$SRC_SCHEMA_ROOT/$f" ]; then
+          cp "$SRC_SCHEMA_ROOT/$f" "$DST_SCHEMA_ROOT/$f"
+          echo "~ cms/schemaTypes/$f updated"
+        fi
+      done
     else
       echo "Note: Skipped schemas (cms/ missing or source schemas not found)."
     fi

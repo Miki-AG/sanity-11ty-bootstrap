@@ -1,0 +1,29 @@
+{# Adjustable Image: single image with width% and alignment on desktop; full width on mobile #}
+{% set align = block.align or 'left' %}
+{% set alignClass = '' %}
+{% if align == 'center' %}{% set alignClass = 'mx-md-auto' %}{% elseif align == 'right' %}{% set alignClass = 'ms-md-auto' %}{% endif %}
+{% set widthPct = block.widthPct or 100 %}
+{% set capAlign = block.captionAlign or 'left' %}
+{% set capAlignClass = 'text-start' %}
+{% if capAlign == 'center' %}{% set capAlignClass = 'text-center' %}{% elseif capAlign == 'right' %}{% set capAlignClass = 'text-end' %}{% endif %}
+
+<section class="container my-5">
+  <div class="adjustable-image {{ alignClass }}" style="--ai-width: {{ widthPct }}%">
+    <figure class="figure d-block m-0">
+      {% if block.imageUrl %}
+        <img src="{{ block.imageUrl }}" class="figure-img img-fluid rounded-2 w-100" alt="{{ block.alt or '' }}">
+      {% else %}
+        <div class="alert alert-warning" role="alert">[missing image]</div>
+      {% endif %}
+      {% if block.caption %}
+        <figcaption class="figure-caption mt-2 {{ capAlignClass }}">
+          {% if block.caption[0] and block.caption[0]._type %}
+            {{ block.caption | pt | safe }}
+          {% else %}
+            {{ block.caption | safe }}
+          {% endif %}
+        </figcaption>
+      {% endif %}
+    </figure>
+  </div>
+</section>

@@ -14,6 +14,7 @@ import quotes from './objects/quotes'
 import portfolio from './objects/portfolio'
 import richText from './objects/richText'
 import imageGallery from './objects/imageGallery'
+import adjustableImage from './objects/adjustableImage'
 import siteSettings from '../schemaTypes/siteSettings'
 import footer from './objects/footer'
 
@@ -34,6 +35,7 @@ export const schemaTypes = [
   portfolio,
   richText,
   imageGallery,
+  adjustableImage,
   siteSettings,
   footer,
 ]
