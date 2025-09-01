@@ -27,7 +27,7 @@ figcaption {
 
 /* Hero helpers */
 .hero { position: relative; min-height: 40vh; }
-.hero__overlay { position: absolute; inset: 0; background: rgba(0,0,0,.35); }
+.hero__overlay { position: absolute; inset: 0; background: var(--hero-overlay, rgba(0,0,0,.35)); }
 .hero__content { position: relative; z-index: 1; }
 
 /* Features */

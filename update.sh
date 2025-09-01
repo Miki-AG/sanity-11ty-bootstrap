@@ -85,14 +85,26 @@ case "$choice" in
       exit 1
     fi
     echo "Available themes:"
-    ( cd "$THEME_DIR" && ls -1 *.css | sed 's/.css$//' )
-    read -r -p "Enter theme name: " THEME
-    SRC_THEME="$THEME_DIR/$THEME.css"
-    DST_THEME="$WEB_DIR/src/assets/theme.css"
-    if [ ! -f "$SRC_THEME" ]; then
-      echo "Theme '$THEME' not found at $SRC_THEME"
+    i=1
+    THEMES=()
+    while IFS= read -r t; do
+      name="${t%.css}"
+      THEMES+=("$name")
+      printf "  %d) %s\n" "$i" "$name"
+      i=$((i+1))
+    done < <(cd "$THEME_DIR" && ls -1 *.css)
+    if [ ${#THEMES[@]} -eq 0 ]; then
+      echo "No theme files found in $THEME_DIR"
       exit 1
     fi
+    read -r -p "Pick a theme [1-${#THEMES[@]}]: " idx
+    if ! [[ "$idx" =~ ^[0-9]+$ ]] || [ "$idx" -lt 1 ] || [ "$idx" -gt ${#THEMES[@]} ]; then
+      echo "Invalid selection."
+      exit 1
+    fi
+    THEME="${THEMES[$((idx-1))]}"
+    SRC_THEME="$THEME_DIR/$THEME.css"
+    DST_THEME="$WEB_DIR/src/assets/theme.css"
     mkdir -p "$(dirname "$DST_THEME")"
     cp "$SRC_THEME" "$DST_THEME"
     echo "Theme '$THEME' copied to $DST_THEME"

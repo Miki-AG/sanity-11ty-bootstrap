@@ -14,7 +14,7 @@
 <section class="container-fluid p-0 mb-4">
   <div class="position-relative overflow-hidden p-3 p-md-5 text-{{ align }} bg-body-tertiary" style="{% if block.bgUrl %}background-image:url('{{ block.bgUrl }}'); background-size:cover; background-position:center;{% endif %}">
     {% if block.bgUrl %}
-      <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0,0,0,.35);"></div>
+      <div class="hero__overlay"></div>
     {% endif %}
     <div class="container position-relative">
       <div class="col-lg-8 mx-auto {{ textAlign }} py-5">
