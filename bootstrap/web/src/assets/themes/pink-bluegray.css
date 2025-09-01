@@ -29,4 +29,11 @@
 
   --bs-border-radius: 0.25rem;
   --bs-spacer: 1rem;
+
+  /* Container max-widths (per breakpoint) */
+  --container-max-sm: 540px;
+  --container-max-md: 720px;
+  --container-max-lg: 960px;
+  --container-max-xl: 1140px;
+  --container-max-xxl: 1320px;
 }

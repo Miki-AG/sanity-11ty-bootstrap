@@ -45,3 +45,10 @@ figcaption {
 .portfolio__text { flex: 1 1 0; min-width: 0; }
 .portfolio__item:hover .portfolio__thumb { transform: scale(1.02); filter: brightness(1.02); }
 .portfolio__item:hover .portfolio__title { text-decoration: underline; }
+
+/* Theme-controlled container max-widths (Option 1, only .container) */
+@media (min-width: 576px) { .container { max-width: var(--container-max-sm, 540px); } }
+@media (min-width: 768px) { .container { max-width: var(--container-max-md, 720px); } }
+@media (min-width: 992px) { .container { max-width: var(--container-max-lg, 960px); } }
+@media (min-width: 1200px) { .container { max-width: var(--container-max-xl, 1140px); } }
+@media (min-width: 1400px) { .container { max-width: var(--container-max-xxl, 1320px); } }

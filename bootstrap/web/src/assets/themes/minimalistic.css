@@ -36,4 +36,13 @@
   /* Optional tweaks */
   --bs-border-radius: 0.25rem;
   --bs-spacer: 1rem;
+
+  /* Container max-widths (per breakpoint) */
+  /* Container width: ~70% of viewport at breakpoint thresholds */
+  /* Using px values aligned to Bootstrap breakpoints */
+  --container-max-sm: 404px;  /* 70% of 576px */
+  --container-max-md: 538px;  /* 70% of 768px */
+  --container-max-lg: 694px;  /* 70% of 992px ≈ 694.4px */
+  --container-max-xl: 840px;  /* 70% of 1200px */
+  --container-max-xxl: 980px; /* 70% of 1400px */
 }
