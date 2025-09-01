@@ -13,6 +13,7 @@ import ctaBanner from './objects/ctaBanner'
 import quotes from './objects/quotes'
 import portfolio from './objects/portfolio'
 import richText from './objects/richText'
+import imageGallery from './objects/imageGallery'
 import siteSettings from '../schemaTypes/siteSettings'
 import footer from './objects/footer'
 
@@ -32,6 +33,7 @@ export const schemaTypes = [
   quotes,
   portfolio,
   richText,
+  imageGallery,
   siteSettings,
   footer,
 ]
