@@ -1,13 +1,21 @@
 /* Indigo–Pink theme */
 :root {
   --bs-primary: #6610f2; /* indigo */
+  --bs-primary-rgb: 102, 16, 242;
   --bs-secondary: #d63384; /* pink */
+  --bs-secondary-rgb: 214, 51, 132;
   --bs-success: #20c997;
+  --bs-success-rgb: 32, 201, 151;
   --bs-info: #0dcaf0;
+  --bs-info-rgb: 13, 202, 240;
   --bs-warning: #ffc107;
+  --bs-warning-rgb: 255, 193, 7;
   --bs-danger: #dc3545;
+  --bs-danger-rgb: 220, 53, 69;
   --bs-light: #f8f9fa;
+  --bs-light-rgb: 248, 249, 250;
   --bs-dark: #212529;
+  --bs-dark-rgb: 33, 37, 41;
 
   --bs-body-bg: #ffffff;
   --bs-body-color: #212529;
@@ -22,4 +30,3 @@
   --bs-border-radius: 0.25rem;
   --bs-spacer: 1rem;
 }
-

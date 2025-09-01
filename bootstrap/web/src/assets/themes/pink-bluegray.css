@@ -1,13 +1,21 @@
 /* Pink–Bluegray theme */
 :root {
   --bs-primary: #e83e8c; /* pink */
+  --bs-primary-rgb: 232, 62, 140;
   --bs-secondary: #6c757d; /* blue-gray */
+  --bs-secondary-rgb: 108, 117, 125;
   --bs-success: #198754;
+  --bs-success-rgb: 25, 135, 84;
   --bs-info: #0dcaf0;
+  --bs-info-rgb: 13, 202, 240;
   --bs-warning: #ffc107;
+  --bs-warning-rgb: 255, 193, 7;
   --bs-danger: #dc3545;
+  --bs-danger-rgb: 220, 53, 69;
   --bs-light: #f8f9fa;
+  --bs-light-rgb: 248, 249, 250;
   --bs-dark: #212529;
+  --bs-dark-rgb: 33, 37, 41;
 
   --bs-body-bg: #ffffff;
   --bs-body-color: #212529;
@@ -22,4 +30,3 @@
   --bs-border-radius: 0.25rem;
   --bs-spacer: 1rem;
 }
-
