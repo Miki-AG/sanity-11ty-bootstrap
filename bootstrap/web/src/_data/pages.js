@@ -2,7 +2,7 @@ import groq from 'groq'
 import {client} from './sanityClient.js'
 
 const query = groq`*[_type=="landingPage"]{
-  _id,title,"slug":slug.current,
+  _id,title,titleAlign,"slug":slug.current,
   blocks[]{
     ...,
     _type=="imageWithCaption"=>{

@@ -13,8 +13,10 @@ eleventyComputed: { title: "{{ page.title }}" }
 {% endif %}
 
 {% if not hasHero %}
+  {% set alignClass = 'text-start' %}
+  {% if page.titleAlign == 'right' %}{% set alignClass = 'text-end' %}{% endif %}
   <section class="container my-4">
-    <h1 class="display-5">{{ page.title }}</h1>
+    <h1 class="display-5 {{ alignClass }}">{{ page.title }}</h1>
   </section>
 {% endif %}
 {% for block in page.blocks %}

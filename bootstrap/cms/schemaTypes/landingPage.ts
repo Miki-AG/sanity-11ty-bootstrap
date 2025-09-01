@@ -6,6 +6,16 @@ export default defineType({
   type: 'document',
   fields: [
     defineField({ name: 'title', type: 'string', validation: r => r.required() }),
+    defineField({
+      name: 'titleAlign',
+      type: 'string',
+      title: 'Page title alignment',
+      options: { list: [
+        {title: 'Left', value: 'left'},
+        {title: 'Right', value: 'right'},
+      ], layout: 'radio', direction: 'horizontal' },
+      initialValue: 'left'
+    }),
     defineField({ name: 'slug', type: 'slug', options: { source: 'title', maxLength: 96 }, validation: r => r.required() }),
     defineField({
       name: 'blocks',
