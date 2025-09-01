@@ -47,7 +47,7 @@ To stop all running development servers, use the `stop.sh` script from your proj
 
 This will stop the `pm2` processes for the 11ty site, Sanity Studio, and the content listener.
 
-### Update later
+### Update
 From inside your project:
 ```
 ../sanity-11ty-bootstrap/update.sh .
@@ -70,7 +70,7 @@ Pick one:
 - CSS defaults: `web/src/assets/site.css` removes body margin, keeps header/footer full‑bleed, and provides light helpers for hero, features and cards.
 - Live updates: `web/listen.js` listens for `landingPage` and `siteSettings` changes and touches data files to trigger 11ty rebuilds (used by `serve.sh`).
 
-## Components (minimal overview)
+## Components
 
 - heroCover: Big hero with optional background image (`bgImage`) and alignment.
 - featuresGrid: Icon/text features in a responsive grid.
