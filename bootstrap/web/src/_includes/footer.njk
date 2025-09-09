@@ -24,8 +24,23 @@
         </div>
       {% endif %}
 
+      {# Contact links from site settings #}
+      {% if globals and (globals.emailAddress or globals.twitterHandle) %}
+        <div class="mt-4 text-center">
+          {% if globals.emailAddress %}
+            You can email me <a class="link-body-emphasis" href="mailto:{{ globals.emailAddress }}">here</a>
+          {% endif %}
+          &nbsp;—&nbsp;
+          {% if globals.twitterHandle %}
+            {% set tw = globals.twitterHandle %}
+            {% set twDisplay = tw %}
+            {% if tw and tw[0] != '@' %}{% set twDisplay = '@' ~ tw %}{% endif %}
+            Or reach out on <a class="link-body-emphasis" href="https://twitter.com/{{ tw | replace('@', '') }}">Twitter/X</a>
+          {% endif %}
+        </div>
+      {% endif %}
+
       <div class="text-body-secondary small mt-4">{{ f.copyright or '' }}</div>
     </div>
   </footer>
 {% endif %}
-

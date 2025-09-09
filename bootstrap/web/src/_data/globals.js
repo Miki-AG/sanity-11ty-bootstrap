@@ -4,7 +4,9 @@ import {client} from './sanityClient.js'
 const query = groq`*[_type=="siteSettings"][0]{
   siteTitle,
   header,
-  footer
+  footer,
+  emailAddress,
+  twitterHandle
 }`
 
 export default async function() {
