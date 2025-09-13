@@ -27,7 +27,7 @@ fi
 echo "What would you like to update?"
 echo "  1) Add new templates/pages/schemas (no overwrite)"
 echo "  2) Add + update templates/pages/schemas (overwrite)"
-echo "  3) Update scripts (listen.js)"
+echo "  3) Update scripts (.eleventy.js + listen.js)"
 echo "  4) Choose theme (copy to web/src/assets/theme.css)"
 read -r -p "Enter choice [1-4]: " choice
 

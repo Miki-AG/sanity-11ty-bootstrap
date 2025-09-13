@@ -68,7 +68,13 @@ Pick one:
 - Global header/footer: Fetched via `web/src/_data/globals.js` and injected by the base layout. Per‑page header blocks are not needed.
 - Bootstrap Icons: Enabled via CDN in the base layout; use `<i class="bi bi-star-fill"></i>` or set `bi` field on featuresGrid items.
 - CSS defaults: `web/src/assets/site.css` removes body margin, keeps header/footer full‑bleed, and provides light helpers for hero, features and cards.
-- Live updates: `web/listen.js` listens for `landingPage` and `siteSettings` changes and touches data files to trigger 11ty rebuilds (used by `serve.sh`).
+- Live updates: `web/listen.js` listens for `landingPage`, `siteSettings`, `post`, `author`, and `category` changes and touches data files to trigger 11ty rebuilds (used by `serve.sh`).
+
+### Blogging
+
+- Create `Author`, `Category`, and `Post` documents in Sanity.
+- Posts use the same Blocks system as landing pages, so you can mix richText, images, galleries, hero covers, etc.
+- Per‑post pages render at `/blog/<slug>/`. The blog index paginates at `/blog/`.
 
 ## Components
 

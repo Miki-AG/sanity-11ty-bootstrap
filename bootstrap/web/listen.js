@@ -11,7 +11,7 @@ const client = createClient({
 })
 
 // Listen for changes to content that affects the site output
-const query = '*[_type in ["landingPage","siteSettings"]]'
+const query = '*[_type in ["landingPage","siteSettings","post","author","category"]]'
 
 console.log('[Sanity] Listening for content changes...')
 
@@ -24,6 +24,7 @@ const subscription = client.listen(query).subscribe(update => {
     // Touch data files that Eleventy watches to trigger a rebuild.
     const files = [
       path.join('src', '_data', 'pages.js'),
+      path.join('src', '_data', 'posts.js'),
       path.join('src', '_data', 'globals.js'),
     ]
     const time = new Date()

@@ -1,4 +1,7 @@
 import landingPage from './landingPage'
+import post from './post'
+import author from './author'
+import category from './category'
 import imageWithCaption from './objects/imageWithCaption'
 import twoColumnText from './objects/twoColumnText'
 import header from './objects/header'
@@ -20,6 +23,9 @@ import footer from './objects/footer'
 
 export const schemaTypes = [
   landingPage,
+  post,
+  author,
+  category,
   imageWithCaption,
   twoColumnText,
   header,
