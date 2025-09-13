@@ -25,6 +25,8 @@ const subscription = client.listen(query).subscribe(update => {
     const files = [
       path.join('src', '_data', 'pages.js'),
       path.join('src', '_data', 'posts.js'),
+      path.join('src', '_data', 'categories.js'),
+      path.join('src', '_data', 'categoryPosts.js'),
       path.join('src', '_data', 'globals.js'),
     ]
     const time = new Date()

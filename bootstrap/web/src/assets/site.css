@@ -13,6 +13,9 @@ img, svg, video, canvas {
   height: auto;
 }
 
+/* Avatar helper for small circular images */
+.avatar { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; display: inline-block; }
+
 /* Figures */
 figure { margin: 0; }
 figcaption {

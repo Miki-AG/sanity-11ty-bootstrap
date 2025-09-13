@@ -10,6 +10,12 @@ export default defineType({
     defineField({ name: 'publishedAt', type: 'datetime', title: 'Published at' }),
     defineField({ name: 'excerpt', type: 'text', rows: 3, title: 'Excerpt' }),
     defineField({
+      name: 'notes',
+      title: 'Notes',
+      type: 'portableText',
+      description: 'Private notes for editors. Not rendered on the site.',
+    }),
+    defineField({
       name: 'coverImage',
       type: 'image',
       title: 'Cover image',
@@ -47,4 +53,3 @@ export default defineType({
     }
   }
 })
-

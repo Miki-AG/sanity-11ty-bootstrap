@@ -75,6 +75,8 @@ Pick one:
 - Create `Author`, `Category`, and `Post` documents in Sanity.
 - Posts use the same Blocks system as landing pages, so you can mix richText, images, galleries, hero covers, etc.
 - Per‑post pages render at `/blog/<slug>/`. The blog index paginates at `/blog/`.
+- Category archives are available at `/blog/category/<slug>/` and a categories index at `/blog/categories/`.
+- Editor notes: Posts include a rich‑text "Notes" field that is visible in Studio (for drafts and published posts) and never rendered on the site.
 
 ## Components
 

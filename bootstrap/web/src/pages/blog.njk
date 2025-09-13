@@ -21,7 +21,12 @@ eleventyComputed: { title: "Blog" }
             <p class="mb-1 text-body-secondary">{{ post.excerpt }}</p>
           {% endif %}
           {% if post.author and post.author.name %}
-            <small class="text-muted">by {{ post.author.name }}</small>
+            <div class="d-flex align-items-center gap-2 mt-1">
+              {% if post.author.imageUrl %}
+                <img src="{{ post.author.imageUrl }}" alt="{{ post.author.name }}" class="avatar" loading="lazy" />
+              {% endif %}
+              <small class="text-muted">by {{ post.author.name }}</small>
+            </div>
           {% endif %}
         </a>
       {% endfor %}

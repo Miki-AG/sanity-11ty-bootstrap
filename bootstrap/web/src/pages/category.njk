@@ -1,0 +1,39 @@
+---
+pagination: { data: categories, size: 1, alias: category }
+permalink: "/blog/category/{{ category.slug | url }}/index.html"
+layout: base.njk
+eleventyComputed: { title: "Category: {{ category.title }}" }
+---
+<section class="container my-4">
+  <h1 class="display-5">Category: {{ category.title }}</h1>
+  {% set items = categoryPosts[category.slug] %}
+  {% if items and (items | length) > 0 %}
+    <div class="list-group list-group-flush">
+      {% for post in items %}
+        <a class="list-group-item list-group-item-action py-3" href="/blog/{{ post.slug | url }}/">
+          <div class="d-flex w-100 justify-content-between">
+            <h2 class="h5 mb-1">{{ post.title }}</h2>
+            {% if post.publishedAt %}<small class="text-muted">{{ post.publishedAt | dateFmt }}</small>{% endif %}
+          </div>
+          {% if post.excerpt %}
+            <p class="mb-1 text-body-secondary">{{ post.excerpt }}</p>
+          {% endif %}
+          {% if post.author and post.author.name %}
+            <div class="d-flex align-items-center gap-2 mt-1">
+              {% if post.author.imageUrl %}
+                <img src="{{ post.author.imageUrl }}" alt="{{ post.author.name }}" class="avatar" loading="lazy" />
+              {% endif %}
+              <small class="text-muted">by {{ post.author.name }}</small>
+            </div>
+          {% endif %}
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-body-secondary">No posts in this category yet.</p>
+  {% endif %}
+
+  <div class="mt-4">
+    <a href="/blog/" class="btn btn-outline-secondary btn-sm">← Back to Blog</a>
+  </div>
+</section>
