@@ -1,6 +1,6 @@
 # Sanity + 11ty + Bootstrap
 
-Make pages in Sanity. See them in 11ty. Ship fast.
+Make pages and blog posts in Sanity. See them in 11ty. Ship fast.
 
 ## Requirements
 
@@ -37,7 +37,7 @@ mkdir my-site && cd my-site
 
 First run tip: In Studio, create and publish “Site Settings” to power the global header/footer.
 
-### 3. Stop the Development Servers
+### Stop the Development Servers
 
 To stop all running development servers, use the `stop.sh` script from your project's directory:
 
@@ -55,7 +55,7 @@ From inside your project:
 Pick one:
 - 1) Add new templates/pages/schemas (no overwrite) + data
 - 2) Add + update templates/pages/schemas (overwrite) + data
-- 3) Update scripts (eleventy config + listener)
+- 3) Update scripts (.eleventy.js + listen.js)
 - 4) Choose theme (copies to `web/src/assets/theme.css`)
 
 ### Demo
@@ -69,14 +69,19 @@ Pick one:
 - Bootstrap Icons: Enabled via CDN in the base layout; use `<i class="bi bi-star-fill"></i>` or set `bi` field on featuresGrid items.
 - CSS defaults: `web/src/assets/site.css` removes body margin, keeps header/footer full‑bleed, and provides light helpers for hero, features and cards.
 - Live updates: `web/listen.js` listens for `landingPage`, `siteSettings`, `post`, `author`, and `category` changes and touches data files to trigger 11ty rebuilds (used by `serve.sh`).
+- Dates: `dateFmt` filter in `web/.eleventy.js` formats post dates.
 
 ### Blogging
 
 - Create `Author`, `Category`, and `Post` documents in Sanity.
-- Posts use the same Blocks system as landing pages, so you can mix richText, images, galleries, hero covers, etc.
-- Per‑post pages render at `/blog/<slug>/`. The blog index paginates at `/blog/`.
-- Category archives are available at `/blog/category/<slug>/` and a categories index at `/blog/categories/`.
-- Editor notes: Posts include a rich‑text "Notes" field that is visible in Studio (for drafts and published posts) and never rendered on the site.
+- Posts use the same Blocks system as landing pages (richText, images, galleries, hero cover, etc.).
+- Routes:
+  - Blog index: `/blog/` (paginated)
+  - Post: `/blog/<slug>/`
+  - Category: `/blog/category/<slug>/`
+  - Categories index: `/blog/categories/`
+- Authors: name + image. Avatars render in lists and post headers via a `.avatar` CSS helper (24×24, circular, `object-fit: cover`).
+- Editor notes: Posts include a rich‑text "Notes" field (always visible in Studio) and never rendered on the site.
 
 ## Components
 
