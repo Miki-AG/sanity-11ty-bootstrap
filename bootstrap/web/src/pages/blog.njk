@@ -1,0 +1,52 @@
+---
+pagination:
+  data: posts
+  size: 10
+  alias: items
+permalink: "{% if pagination.pageNumber == 0 %}/blog/index.html{% else %}/blog/page/{{ pagination.pageNumber + 1 }}/index.html{% endif %}"
+layout: base.njk
+eleventyComputed: { title: "Blog" }
+---
+<section class="container my-4">
+  <h1 class="display-5">Blog</h1>
+  {% if items and (items | length) > 0 %}
+    <div class="list-group list-group-flush">
+      {% for post in items %}
+        <a class="list-group-item list-group-item-action py-3" href="/blog/{{ post.slug | url }}/">
+          <div class="d-flex w-100 justify-content-between">
+            <h2 class="h5 mb-1">{{ post.title }}</h2>
+            {% if post.publishedAt %}<small class="text-muted">{{ post.publishedAt | dateFmt }}</small>{% endif %}
+          </div>
+          {% if post.excerpt %}
+            <p class="mb-1 text-body-secondary">{{ post.excerpt }}</p>
+          {% endif %}
+          {% if post.author and post.author.name %}
+            <small class="text-muted">by {{ post.author.name }}</small>
+          {% endif %}
+        </a>
+      {% endfor %}
+    </div>
+
+    {# Pagination controls #}
+    {% if pagination.totalPages > 1 %}
+      <nav class="mt-4" aria-label="Blog pages">
+        <ul class="pagination">
+          <li class="page-item{% if pagination.pageNumber == 0 %} disabled{% endif %}">
+            <a class="page-link" href="{% if pagination.pageNumber > 0 %}{% if pagination.pageNumber == 1 %}/blog/{% else %}/blog/page/{{ pagination.pageNumber }}/{% endif %}{% else %}#{% endif %}">Previous</a>
+          </li>
+          {% for p in pagination.pages %}
+            {% set n = loop.index0 %}
+            <li class="page-item{% if n == pagination.pageNumber %} active{% endif %}">
+              <a class="page-link" href="{% if n == 0 %}/blog/{% else %}/blog/page/{{ n + 1 }}/{% endif %}">{{ n + 1 }}</a>
+            </li>
+          {% endfor %}
+          <li class="page-item{% if pagination.pageNumber == (pagination.totalPages - 1) %} disabled{% endif %}">
+            <a class="page-link" href="{% if pagination.pageNumber < (pagination.totalPages - 1) %}/blog/page/{{ pagination.pageNumber + 2 }}/{% else %}#{% endif %}">Next</a>
+          </li>
+        </ul>
+      </nav>
+    {% endif %}
+  {% else %}
+    <p class="text-body-secondary">No posts yet.</p>
+  {% endif %}
+</section>

@@ -1,0 +1,32 @@
+---
+pagination: { data: posts, size: 1, alias: post }
+permalink: "/blog/{{ post.slug | url }}/index.html"
+layout: base.njk
+eleventyComputed: { title: "{{ post.title }}" }
+---
+{# Optional hero detection like landing pages #}
+{% set hasHero = false %}
+{% if post.blocks and (post.blocks | length) > 0 %}
+  {% for b in post.blocks %}
+    {% if b._type == 'heroCover' %}{% set hasHero = true %}{% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if not hasHero %}
+  <section class="container my-4">
+    <h1 class="display-5 text-start">{{ post.title }}</h1>
+    <p class="text-muted mb-0">
+      {% if post.publishedAt %}
+        <small>{{ post.publishedAt | dateFmt }}</small>
+      {% endif %}
+      {% if post.author and post.author.name %}
+        <small> · by {{ post.author.name }}</small>
+      {% endif %}
+    </p>
+  </section>
+{% endif %}
+
+{# Render blocks #}
+{% for block in post.blocks %}
+  {% include "blocks/" + block._type + ".njk" %}
+{% endfor %}
