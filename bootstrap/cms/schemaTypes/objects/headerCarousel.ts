@@ -47,23 +47,25 @@ export default defineType({
               type: 'string',
             }),
             defineField({
-              name: 'caption',
-              title: 'Caption',
-              type: 'text',
-              rows: 2,
+              name: 'captionHeading',
+              title: 'Caption heading',
+              type: 'string',
+            }),
+            defineField({
+              name: 'captionBody',
+              title: 'Caption body',
+              type: 'portableText',
             }),
           ],
           preview: {
             select: {
               media: 'image',
-              title: 'alt',
-              caption: 'caption',
+              title: 'captionHeading',
             },
-            prepare({media, title, caption}) {
+            prepare({media, title}) {
               return {
                 media,
                 title: title || 'Slide',
-                subtitle: caption,
               }
             },
           },

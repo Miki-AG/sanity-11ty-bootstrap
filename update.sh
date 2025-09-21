@@ -25,9 +25,9 @@ if [ ! -d "$WEB_DIR" ]; then
 fi
 
 echo "What would you like to update?"
-echo "  1) Add new templates/pages/schemas (no overwrite)"
-echo "  2) Add + update templates/pages/schemas (overwrite)"
-echo "  3) Update scripts (.eleventy.js + listen.js)"
+echo "  1) Add new templates/pages/schemas (no overwrite, keeps existing base.njk)"
+echo "  2) Add + update templates/pages/schemas (overwrite, keeps existing base.njk)"
+echo "  3) Update scripts (.eleventy.js + listen.js + base.njk)"
 echo "  4) Choose theme (copy to web/src/assets/theme.css)"
 read -r -p "Enter choice [1-4]: " choice
 
@@ -64,7 +64,7 @@ case "$choice" in
       echo "Note: Skipped schemas (cms/ missing or source schemas not found)."
     fi
     bash "$SCRIPT_DIR/_update_data.sh" "$SCRIPT_DIR" "$WEB_DIR"
-    echo "Done."
+    echo "Done. base.njk unchanged (only updated via option 3)."
     ;;
   2)
     mkdir -p "$DST_INCLUDES_ROOT" "$DST_PAGES_ROOT"
@@ -79,11 +79,16 @@ case "$choice" in
       echo "Note: Skipped schemas (cms/ missing or source schemas not found)."
     fi
     bash "$SCRIPT_DIR/_update_data.sh" "$SCRIPT_DIR" "$WEB_DIR"
-    echo "Done."
+    echo "Done. base.njk unchanged (only updated via option 3)."
     ;;
   3)
     bash "$SCRIPT_DIR/_update_listenjs.sh" "$SCRIPT_DIR" "$WEB_DIR"
-    echo "Scripts updated."
+    if [ -f "$SRC_INCLUDES_ROOT/base.njk" ]; then
+      mkdir -p "$DST_INCLUDES_ROOT"
+      cp "$SRC_INCLUDES_ROOT/base.njk" "$DST_INCLUDES_ROOT/base.njk"
+      echo "~ base.njk updated"
+    fi
+    echo "Scripts updated (base.njk refreshed)."
     ;;
   4)
     THEME_DIR="$SCRIPT_DIR/bootstrap/web/src/assets/themes"

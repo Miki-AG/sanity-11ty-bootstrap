@@ -52,9 +52,16 @@
               {% if imgUrl %}
                 <img src="{{ imgUrl }}" alt="{{ slide.imageAlt or '' }}" class="d-block w-100 site-header__carousel-img" loading="lazy" decoding="async"/>
               {% endif %}
-              {% if slide.caption %}
-                <div class="carousel-caption d-none d-md-block">
-                  <p>{{ slide.caption }}</p>
+              {% if slide.captionHeading or slide.captionBody %}
+                <div class="carousel-caption d-none d-md-block site-header__carousel-caption">
+                  <div class="site-header__carousel-caption-inner">
+                    {% if slide.captionHeading %}
+                      <h3 class="site-header__carousel-caption-heading">{{ slide.captionHeading }}</h3>
+                    {% endif %}
+                    {% if slide.captionBody %}
+                      <div class="site-header__carousel-caption-body">{{ slide.captionBody | pt | safe }}</div>
+                    {% endif %}
+                  </div>
                 </div>
               {% endif %}
             </div>

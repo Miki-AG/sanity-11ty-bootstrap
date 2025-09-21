@@ -14,6 +14,9 @@ DST_PAGES_ROOT=$4
 # Add new includes (no overwrite)
 if [ -d "$SRC_INCLUDES_ROOT" ]; then
   ( cd "$SRC_INCLUDES_ROOT" && find . -type f ) | while read -r rel; do
+    if [[ "$rel" == "./base.njk" ]]; then
+      continue
+    fi
     src="$SRC_INCLUDES_ROOT/$rel"; dst="$DST_INCLUDES_ROOT/$rel"; dst_dir="$(dirname "$dst")"
     if [ ! -e "$dst" ]; then
       mkdir -p "$dst_dir" && cp "$src" "$dst" && echo "+ _includes/$rel"
@@ -30,4 +33,3 @@ if [ -d "$SRC_PAGES_ROOT" ]; then
     fi
   done
 fi
-
