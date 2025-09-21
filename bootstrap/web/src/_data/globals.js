@@ -6,7 +6,11 @@ const query = groq`*[_type=="siteSettings"][0]{
   header,
   footer,
   emailAddress,
-  twitterHandle
+  twitterHandle,
+  "logo": logo{
+    "url": coalesce(asset->url, null),
+    "alt": coalesce(alt, null)
+  }
 }`
 
 export default async function() {

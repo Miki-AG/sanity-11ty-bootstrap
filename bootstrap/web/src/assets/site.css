@@ -54,6 +54,26 @@ figcaption {
 .site-header__carousel-nav { position: absolute; inset: 0; display: flex; align-items: flex-start; padding: clamp(1.5rem, 2.5vw, 2.5rem) 0; z-index: 2; pointer-events: none; }
 .site-header__carousel-nav .navbar { width: 100%; pointer-events: auto; }
 .site-header--carousel .carousel-caption { text-shadow: 0 1px 0 rgba(0,0,0,.25); }
+.site-header__brand-logo { max-height: clamp(32px, 6vh, 56px); width: auto; }
+/* Reset Bootstrap container styles for carousel header */
+.container--header-carousel {
+  width: 100%;
+  max-width: 100% !important;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+@media (min-width: 992px) {
+  .container--header-carousel {
+    width: calc(100% - 160px);
+    max-width: calc(100% - 160px) !important;
+    margin-left: 80px;
+    margin-right: 80px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
 
 
 /* Features */

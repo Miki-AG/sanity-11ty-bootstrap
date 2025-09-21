@@ -9,11 +9,17 @@
 {% if mode in ['hero', 'carousel'] %}
   {% set navClasses = 'navbar navbar-expand-md navbar-dark bg-transparent mb-0' %}
 {% endif %}
+{% set logo = headerLogo or ((globals and globals.logo) or null) %}
 
 {% set navMarkup %}
   <nav class="{{ navClasses }}">
-    <div class="container">
-      <a class="navbar-brand" href="/">{{ headerData.title or 'Site' }}</a>
+    <div class="container{% if mode == 'carousel' %} container--header-carousel{% endif %}">
+      <a class="navbar-brand d-flex align-items-center gap-3" href="/">
+        {% if logo and logo.url %}
+          <img src="{{ logo.url }}" alt="{{ logo.alt or headerData.title or 'Logo' }}" class="site-header__brand-logo" loading="lazy" decoding="async"/>
+        {% endif %}
+        <span>{{ headerData.title or 'Site' }}</span>
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#{{ navId }}" aria-controls="{{ navId }}" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>

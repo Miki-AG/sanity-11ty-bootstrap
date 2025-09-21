@@ -26,8 +26,10 @@
   {% set headerContext = headerData %}
   {% set headerHeroImage = heroImage %}
   {% set headerNavItems = navItems %}
+  {% set headerLogo = (globals and globals.logo) or null %}
   {% include "../header.njk" %}
   {% set headerContext = null %}
   {% set headerHeroImage = null %}
   {% set headerNavItems = null %}
+  {% set headerLogo = null %}
 {% endif %}

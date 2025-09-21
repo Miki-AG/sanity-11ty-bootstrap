@@ -21,6 +21,7 @@
   {% set headerHeroImage = null %}
   {% set headerNavItems = navItems %}
   {% set headerMode = 'carousel' %}
+  {% set headerLogo = (globals and globals.logo) or null %}
   {% set navMarkup %}
     {% include "../header.njk" %}
   {% endset %}
@@ -28,6 +29,7 @@
   {% set headerHeroImage = null %}
   {% set headerNavItems = null %}
   {% set headerMode = null %}
+  {% set headerLogo = null %}
 
   {% set carouselId = 'header-carousel-' ~ (block._key or 'default') %}
   {% set slideCount = slides | length %}
