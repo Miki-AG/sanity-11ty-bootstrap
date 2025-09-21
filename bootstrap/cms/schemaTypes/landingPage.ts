@@ -22,6 +22,8 @@ export default defineType({
       title: 'Blocks',
       type: 'array',
       of: [
+        {type: 'headerBlock'},
+        {type: 'headerCarousel'},
         {type: 'heroCover'},
         {type: 'featuresGrid'},
         {type: 'cardsGrid'},

@@ -4,6 +4,11 @@ permalink: "/blog/category/{{ category.slug | url }}/index.html"
 layout: base.njk
 eleventyComputed: { title: "Category: {{ category.title }}" }
 ---
+{% if globals and globals.header %}
+  {% set headerContext = globals.header %}
+  {% include "header.njk" %}
+  {% set headerContext = null %}
+{% endif %}
 <section class="container my-4">
   <h1 class="display-5">Category: {{ category.title }}</h1>
   {% set items = categoryPosts[category.slug] %}

@@ -3,6 +3,11 @@ layout: base.njk
 permalink: "/blog/categories/index.html"
 eleventyComputed: { title: "Categories" }
 ---
+{% if globals and globals.header %}
+  {% set headerContext = globals.header %}
+  {% include "header.njk" %}
+  {% set headerContext = null %}
+{% endif %}
 <section class="container my-4">
   <h1 class="display-5">Categories</h1>
   {% if categories and (categories | length) > 0 %}
@@ -23,4 +28,3 @@ eleventyComputed: { title: "Categories" }
     <a href="/blog/" class="btn btn-outline-secondary btn-sm">← Back to Blog</a>
   </div>
 </section>
-

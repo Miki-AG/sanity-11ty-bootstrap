@@ -1,0 +1,81 @@
+{# Header carousel block: renders Bootstrap carousel with nav overlay #}
+{% set source = block.contentSource or 'global' %}
+{% set globalHeader = (globals and globals.header) or null %}
+{% set headerData = globalHeader %}
+
+{% if source == 'custom' and block.customHeader %}
+  {% set headerData = block.customHeader %}
+{% endif %}
+
+{% set navItems = null %}
+{% if globalHeader and globalHeader.navItems %}
+  {% set navItems = globalHeader.navItems %}
+{% elseif headerData and headerData.navItems %}
+  {% set navItems = headerData.navItems %}
+{% endif %}
+
+{% set slides = block.slides or [] %}
+
+{% if headerData %}
+  {% set headerContext = headerData %}
+  {% set headerHeroImage = null %}
+  {% set headerNavItems = navItems %}
+  {% set headerMode = 'carousel' %}
+  {% set navMarkup %}
+    {% include "../header.njk" %}
+  {% endset %}
+  {% set headerContext = null %}
+  {% set headerHeroImage = null %}
+  {% set headerNavItems = null %}
+  {% set headerMode = null %}
+
+  {% set carouselId = 'header-carousel-' ~ (block._key or 'default') %}
+  {% set slideCount = slides | length %}
+
+  {% if slideCount > 0 %}
+    <header class="site-header site-header--carousel mb-4">
+      <div id="{{ carouselId }}" class="carousel slide site-header__carousel" data-bs-ride="carousel">
+        {% if slideCount > 1 %}
+          <div class="carousel-indicators">
+            {% for slide in slides %}
+              <button type="button" data-bs-target="#{{ carouselId }}" data-bs-slide-to="{{ loop.index0 }}"{% if loop.first %} class="active" aria-current="true"{% endif %} aria-label="Slide {{ loop.index }}"></button>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <div class="carousel-inner">
+          {% for slide in slides %}
+            {% set imgUrl = slide.imageUrl %}
+            <div class="carousel-item{% if loop.first %} active{% endif %}">
+              {% if imgUrl %}
+                <img src="{{ imgUrl }}" alt="{{ slide.imageAlt or '' }}" class="d-block w-100 site-header__carousel-img" loading="lazy" decoding="async"/>
+              {% endif %}
+              {% if slide.caption %}
+                <div class="carousel-caption d-none d-md-block">
+                  <p>{{ slide.caption }}</p>
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+
+        {% if slideCount > 1 %}
+          <button class="carousel-control-prev" type="button" data-bs-target="#{{ carouselId }}" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#{{ carouselId }}" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        {% endif %}
+      </div>
+      <div class="site-header__carousel-overlay"></div>
+      <div class="site-header__carousel-nav">
+        {{ navMarkup | safe }}
+      </div>
+    </header>
+  {% else %}
+    {{ navMarkup | safe }}
+  {% endif %}
+{% endif %}

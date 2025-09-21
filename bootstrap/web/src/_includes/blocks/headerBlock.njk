@@ -1,0 +1,33 @@
+{# Render the header either from globals or a custom override #}
+{% set source = block.contentSource or 'global' %}
+{% set globalHeader = (globals and globals.header) or null %}
+{% set headerData = globalHeader %}
+
+{% if source == 'custom' and block.customHeader %}
+  {% set headerData = block.customHeader %}
+{% endif %}
+
+{% set navItems = null %}
+{% if globalHeader and globalHeader.navItems %}
+  {% set navItems = globalHeader.navItems %}
+{% elseif headerData and headerData.navItems %}
+  {% set navItems = headerData.navItems %}
+{% endif %}
+
+{% set heroImage = null %}
+{% if block.heroImageUrl %}
+  {% set heroImage = {
+    url: block.heroImageUrl,
+    alt: block.heroImageAlt or ''
+  } %}
+{% endif %}
+
+{% if headerData %}
+  {% set headerContext = headerData %}
+  {% set headerHeroImage = heroImage %}
+  {% set headerNavItems = navItems %}
+  {% include "../header.njk" %}
+  {% set headerContext = null %}
+  {% set headerHeroImage = null %}
+  {% set headerNavItems = null %}
+{% endif %}

@@ -6,10 +6,18 @@ eleventyComputed: { title: "{{ post.title }}" }
 ---
 {# Optional hero detection like landing pages #}
 {% set hasHero = false %}
+{% set hasHeaderBlock = false %}
 {% if post.blocks and (post.blocks | length) > 0 %}
   {% for b in post.blocks %}
     {% if b._type == 'heroCover' %}{% set hasHero = true %}{% endif %}
+    {% if b._type == 'headerBlock' or b._type == 'headerCarousel' %}{% set hasHeaderBlock = true %}{% endif %}
   {% endfor %}
+{% endif %}
+
+{% if globals and globals.header and not hasHeaderBlock %}
+  {% set headerContext = globals.header %}
+  {% include "header.njk" %}
+  {% set headerContext = null %}
 {% endif %}
 
 {% if not hasHero %}

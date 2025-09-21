@@ -33,6 +33,29 @@ figcaption {
 .hero__overlay { position: absolute; inset: 0; background: var(--hero-overlay, rgba(0,0,0,.35)); }
 .hero__content { position: relative; z-index: 1; }
 
+/* Header hero */
+.site-header--hero { position: relative; overflow: hidden; border-radius: var(--site-header-hero-radius, 0); }
+.site-header__hero-img { width: 100%; height: clamp(14rem, 45vh, 24rem); object-fit: cover; display: block; }
+.site-header__overlay { position: absolute; inset: 0; background: var(--header-hero-overlay, rgba(0,0,0,.5)); }
+.site-header__inner { position: absolute; inset: 0; display: flex; align-items: flex-start; padding: clamp(1.5rem, 2.5vw, 2.5rem) 0; }
+.site-header__inner > .navbar { width: 100%; }
+.site-header__inner .navbar .navbar-nav .nav-link { color: rgba(255,255,255,0.85); }
+.site-header__inner .navbar .navbar-nav .nav-link:hover { color: #fff; }
+.site-header__inner .navbar .navbar-toggler { border-color: rgba(255,255,255,.4); }
+.site-header__inner .navbar .navbar-toggler-icon { filter: brightness(10); }
+.site-header__inner .navbar .navbar-brand { color: #fff; }
+
+/* Header carousel */
+.site-header--carousel { position: relative; overflow: hidden; border-radius: var(--site-header-carousel-radius, 0); }
+.site-header__carousel { position: relative; }
+.site-header--carousel .carousel-item { height: var(--header-carousel-height, clamp(16rem, 50vh, 28rem)); }
+.site-header__carousel-img { width: 100%; height: 100%; object-fit: cover; }
+.site-header__carousel-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,0) 60%); pointer-events: none; }
+.site-header__carousel-nav { position: absolute; inset: 0; display: flex; align-items: flex-start; padding: clamp(1.5rem, 2.5vw, 2.5rem) 0; z-index: 2; pointer-events: none; }
+.site-header__carousel-nav .navbar { width: 100%; pointer-events: auto; }
+.site-header--carousel .carousel-caption { text-shadow: 0 1px 0 rgba(0,0,0,.25); }
+
+
 /* Features */
 .features__icon { font-size: 2rem; line-height: 1; }
 

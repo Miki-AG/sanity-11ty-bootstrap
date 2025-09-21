@@ -6,18 +6,23 @@ eleventyComputed: { title: "{{ page.title }}" }
 ---
 {# Show an H1 only if there is no heroCover block #}
 {% set hasHero = false %}
+{% set hasHeaderBlock = false %}
 {% if page.blocks and (page.blocks | length) > 0 %}
   {% for b in page.blocks %}
     {% if b._type == 'heroCover' %}{% set hasHero = true %}{% endif %}
+    {% if b._type == 'headerBlock' or b._type == 'headerCarousel' %}{% set hasHeaderBlock = true %}{% endif %}
   {% endfor %}
+{% endif %}
+
+{% if globals and globals.header and not hasHeaderBlock %}
+  {% set headerContext = globals.header %}
+  {% include "header.njk" %}
+  {% set headerContext = null %}
 {% endif %}
 
 {% if not hasHero %}
   {% set alignClass = 'text-start' %}
   {% if page.titleAlign == 'right' %}{% set alignClass = 'text-end' %}{% endif %}
-  <section class="container my-4">
-    <h1 class="display-5 {{ alignClass }}">{{ page.title }}</h1>
-  </section>
 {% endif %}
 {% for block in page.blocks %}
   {% include "blocks/" + block._type + ".njk" %}

@@ -5,6 +5,8 @@ import category from './category'
 import imageWithCaption from './objects/imageWithCaption'
 import twoColumnText from './objects/twoColumnText'
 import header from './objects/header'
+import headerBlock from './objects/headerBlock'
+import headerCarousel from './objects/headerCarousel'
 import navItem from './objects/navItem'
 import portableText from './objects/portableText'
 import heroCover from './objects/heroCover'
@@ -29,6 +31,8 @@ export const schemaTypes = [
   imageWithCaption,
   twoColumnText,
   header,
+  headerBlock,
+  headerCarousel,
   navItem,
   portableText,
   heroCover,

@@ -17,6 +17,19 @@ const query = groq`*[_type=="landingPage"]{
       ...,
       "bgUrl":coalesce(bgImage.asset->url,null)
     },
+    _type=="headerBlock"=>{
+      ...,
+      "heroImageUrl":coalesce(heroImage.asset->url,null),
+      "heroImageAlt":coalesce(heroImage.alt,null)
+    },
+    _type=="headerCarousel"=>{
+      ...,
+      slides[]{
+        ...,
+        "imageUrl":coalesce(image.asset->url,null),
+        "imageAlt":coalesce(alt,null)
+      }
+    },
     _type=="cardsGrid"=>{
       ...,
       cards[]{

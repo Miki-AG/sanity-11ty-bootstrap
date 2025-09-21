@@ -16,6 +16,15 @@ const query = groq`*[_type=="post" && defined(slug.current)]{
     _type=="imageWithCaption"=>{ ..., "url":coalesce(image.asset->url,null) },
     _type=="quotes"=>{ ..., "bgUrl":coalesce(coalesce(bgImage.asset->url,image.asset->url),null) },
     _type=="heroCover"=>{ ..., "bgUrl":coalesce(bgImage.asset->url,null) },
+    _type=="headerBlock"=>{ ..., "heroImageUrl":coalesce(heroImage.asset->url,null), "heroImageAlt":coalesce(heroImage.alt,null) },
+    _type=="headerCarousel"=>{
+      ...,
+      slides[]{
+        ...,
+        "imageUrl":coalesce(image.asset->url,null),
+        "imageAlt":coalesce(alt,null)
+      }
+    },
     _type=="cardsGrid"=>{ ..., cards[]{ ..., "imageUrl":coalesce(image.asset->url,null) } },
     _type=="portfolio"=>{ ..., items[]{ ..., "imageUrl":coalesce(image.asset->url,null) } },
     _type=="imageGallery"=>{ ..., images[]{ ..., "imageUrl":coalesce(image.asset->url,null) } },
@@ -33,4 +42,3 @@ export default async function() {
     return []
   }
 }
-

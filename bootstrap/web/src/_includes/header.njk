@@ -1,23 +1,45 @@
-{# Responsive Bootstrap navbar with collapsible menu (Nunjucks-safe) #}
-{% set navId = 'nav-' ~ (block._key or 'header') %}
+{# Responsive Bootstrap navbar with optional hero image background #}
+{% set headerData = headerContext or header or block or {} %}
+{% set hero = headerHeroImage or heroImage %}
+{% set navList = headerNavItems or navItems or headerData.navItems %}
+{% set navId = 'nav-' ~ (headerData._key or 'header') %}
+{% set hasHeroImage = hero and hero.url %}
+{% set mode = headerMode or (hasHeroImage and 'hero' or 'default') %}
+{% set navClasses = 'navbar navbar-expand-md navbar-light bg-body-tertiary mb-4' %}
+{% if mode in ['hero', 'carousel'] %}
+  {% set navClasses = 'navbar navbar-expand-md navbar-dark bg-transparent mb-0' %}
+{% endif %}
 
-<nav class="navbar navbar-expand-md navbar-light bg-body-tertiary mb-4">
-  <div class="container">
-    <a class="navbar-brand" href="/">{{ block.title or 'Site' }}</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#{{ navId }}" aria-controls="{{ navId }}" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="{{ navId }}">
-      {% if block.navItems and (block.navItems | length) > 0 %}
-        <ul class="navbar-nav ms-auto mb-2 mb-md-0">
-          {% for item in block.navItems %}
-            <li class="nav-item">
-              <a class="nav-link" href="{{ item.url }}">{{ item.text }}</a>
-            </li>
-          {% endfor %}
-        </ul>
-      {% endif %}
+{% set navMarkup %}
+  <nav class="{{ navClasses }}">
+    <div class="container">
+      <a class="navbar-brand" href="/">{{ headerData.title or 'Site' }}</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#{{ navId }}" aria-controls="{{ navId }}" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="{{ navId }}">
+        {% if navList and (navList | length) > 0 %}
+          <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+            {% for item in navList %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ item.url }}">{{ item.text }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
     </div>
-  </div>
-  
-</nav>
+  </nav>
+{% endset %}
+
+{% if mode == 'hero' %}
+  <header class="site-header site-header--hero mb-4">
+    <img src="{{ hero.url }}" alt="{{ hero.alt }}" class="site-header__hero-img" loading="lazy" decoding="async"/>
+    <div class="site-header__overlay"></div>
+    <div class="site-header__inner">
+      {{ navMarkup | safe }}
+    </div>
+  </header>
+{% else %}
+  {{ navMarkup | safe }}
+{% endif %}
