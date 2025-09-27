@@ -53,46 +53,7 @@ figcaption {
 .site-header__carousel-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,0) 60%); pointer-events: none; }
 .site-header__carousel-nav { position: absolute; inset: 0; display: flex; align-items: flex-start; padding: clamp(1.5rem, 2.5vw, 2.5rem) 0; z-index: 2; pointer-events: none; }
 .site-header__carousel-nav .navbar { width: 100%; pointer-events: auto; }
-.site-header--carousel .carousel-caption { 
-  text-shadow: 0 1px 0 rgba(0,0,0,.25); 
-  bottom: 6vh;
-}
 .site-header__brand-logo { max-height: clamp(32px, 6vh, 56px); width: auto; }
-/* Carousel caption */
-.site-header__carousel-caption { 
-  left: 50%; 
-  right: auto; 
-  transform: translateX(-50%); 
-  text-align: left; 
-  padding: 2vw 7vw;
-  max-width: min(90%, 720px); 
-  background: rgba(0,0,0,.45); 
-  border-radius: var(--site-header-caption-radius, 1rem); 
-  backdrop-filter: blur(8px); 
-}
-.site-header__carousel-caption-inner { text-align: left; display: flex; flex-direction: column; gap: 1rem; }
-.site-header__carousel-caption-heading { margin: 0; font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 700; color: #fff; }
-.site-header__carousel-caption-body { color: rgba(255,255,255,0.85); font-size: clamp(1rem, 1.5vw, 1.125rem); margin: 0; }
-.site-header__carousel-caption-body p:last-child { margin-bottom: 0; }
-/* Reset Bootstrap container styles for carousel header */
-.container--header-carousel {
-  width: 100%;
-  max-width: 100% !important;
-  margin-left: 0;
-  margin-right: 0;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
-@media (min-width: 992px) {
-  .container--header-carousel {
-    width: calc(100% - 160px);
-    max-width: calc(100% - 160px) !important;
-    margin-left: 80px;
-    margin-right: 80px;
-    padding-left: 0;
-    padding-right: 0;
-  }
-}
 
 
 /* Features */
