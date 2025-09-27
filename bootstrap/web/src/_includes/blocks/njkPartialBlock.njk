@@ -1,0 +1,34 @@
+{# Render a custom Nunjucks partial from Sanity #}
+{% set rawPath = block.partialPath | default('') %}
+<span>rawPath: {{ rawPath }}</span>
+{% set trimmedPath = rawPath | trim %}
+{% if not trimmedPath %}
+  <div class="container my-5 alert alert-warning">
+    Missing partial path for Nunjucks partial block.
+  </div>
+{% else %}
+  {# Normalise the path to match Eleventy's includes directory #}
+  {% set normalized = trimmedPath | replace('src/_includes/', '') %}
+  {% if normalized and normalized[0] == '/' %}
+    {% set normalized = normalized[1:] %}
+  {% endif %}
+  {% if normalized and normalized[0:2] == './' %}
+    {% set normalized = normalized[2:] %}
+  {% endif %}
+  {% set includePath = normalized %}
+  {% if not includePath %}
+    <div class="container my-5 alert alert-warning">
+      Nunjucks partial block path resolved to nothing.
+    </div>
+  {% elif '..' in includePath %}
+    <div class="container my-5 alert alert-danger">
+      Invalid partial path "{{ includePath }}".
+    </div>
+  {% elif includePath | partialExists %}
+    {% include includePath %}
+  {% else %}
+    <div class="container my-5 alert alert-danger">
+      Nunjucks partial "{{ trimmedPath }}" was not found (looked for "{{ includePath }}" under <code>src/_includes</code>).
+    </div>
+  {% endif %}
+{% endif %}
