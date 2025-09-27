@@ -43,7 +43,8 @@ export default defineType({
         {type: 'portfolio'},
         {type: 'richText'},
         {type: 'imageGallery'},
-        {type: 'adjustableImage'}
+        {type: 'adjustableImage'},
+        {type: 'njkPartialBlock'}
       ]
     }),
   ],

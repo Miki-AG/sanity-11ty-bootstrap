@@ -22,6 +22,7 @@ import imageGallery from './objects/imageGallery'
 import adjustableImage from './objects/adjustableImage'
 import siteSettings from '../schemaTypes/siteSettings'
 import footer from './objects/footer'
+import njkPartialBlock from './objects/njkPartialBlock'
 
 export const schemaTypes = [
   landingPage,
@@ -48,4 +49,5 @@ export const schemaTypes = [
   adjustableImage,
   siteSettings,
   footer,
+  njkPartialBlock,
 ]

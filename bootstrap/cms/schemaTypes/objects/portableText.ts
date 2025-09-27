@@ -36,6 +36,8 @@ export default defineType({
         ],
       },
     }),
+    defineArrayMember({
+      type: 'njkPartialBlock',
+    }),
   ],
 })
-
