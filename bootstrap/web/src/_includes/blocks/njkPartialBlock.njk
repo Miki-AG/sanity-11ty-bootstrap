@@ -1,6 +1,10 @@
 {# Render a custom Nunjucks partial from Sanity #}
 {% set rawPath = block.partialPath | default('') %}
+
+<span>----------------------- PARTIAL BLOCK -----------------------</span>
 <span>rawPath: {{ rawPath }}</span>
+
+
 {% set trimmedPath = rawPath | trim %}
 {% if not trimmedPath %}
   <div class="container my-5 alert alert-warning">
